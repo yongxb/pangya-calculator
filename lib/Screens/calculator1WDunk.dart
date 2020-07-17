@@ -142,7 +142,7 @@ class _Calculator1WDunkFormState extends State<Calculator1WDunkForm> {
 
       if (appData.useCosine == false){
         windAngle = 90 - windAngle;
-      };
+      }
 
       double deltaH;
       double inf;
@@ -357,7 +357,7 @@ class _Calculator1WDunkFormState extends State<Calculator1WDunkForm> {
                           padding: const EdgeInsets.symmetric(
                             vertical: 5.0,
                           ),
-                          child: Text("Wind Direction:",textAlign: TextAlign.left,),
+                          child: Text("Wind Direction (${appData.angleFunction}):",textAlign: TextAlign.left,),
                         ),
                       ),
                       LabeledRadio(

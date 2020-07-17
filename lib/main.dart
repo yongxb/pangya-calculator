@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:pangya_calculator/Screens/calculator1WDunk.dart';
 import 'package:pangya_calculator/Screens/calculator6i.dart';
 import 'package:pangya_calculator/Screens/calculator1WToma.dart';
+import 'package:pangya_calculator/drawer.dart';
 
 void main() {
   runApp(MyApp());
@@ -41,6 +42,7 @@ class tabBar extends StatelessWidget {
             tabs: myTabs,
           ),
         ),
+        drawer: drawerWidget(),
         body: TabBarView(
           children: [
             Calculator1WDunkForm(),

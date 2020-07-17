@@ -121,7 +121,7 @@ class _Calculator1WTomaFormState extends State<Calculator1WTomaForm> {
 
       if (appData.useCosine == false){
         windAngle = 90 - windAngle;
-      };
+      }
 
       double deltaH;
       double inf;
@@ -337,7 +337,7 @@ class _Calculator1WTomaFormState extends State<Calculator1WTomaForm> {
                           padding: const EdgeInsets.symmetric(
                             vertical: 5.0,
                           ),
-                          child: Text("Wind Direction:",textAlign: TextAlign.left,),
+                          child: Text("Wind Direction (${appData.angleFunction}):",textAlign: TextAlign.left,),
                         ),
                       ),
                       LabeledRadio(

@@ -8,6 +8,7 @@ class AppData {
   double maxPower6i = 141;
 
   bool useCosine = true;
+  String angleFunction = 'Cosine';
 
   double pinDistance = 220;
   double elevation = 0;
