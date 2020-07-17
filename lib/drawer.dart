@@ -53,39 +53,57 @@ class _drawerWidgetState extends State<drawerWidget> {
         padding: EdgeInsets.zero,
         children: <Widget>[
           DrawerHeader(
-            child: Text('Quick Settings'),
+            child: Text(''),
             decoration: BoxDecoration(
               color: Colors.blue,
             ),
           ),
-          Text('Quick Settings'),
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Row(
+              children: <Widget>[
+                Icon(
+                  Icons.settings,
+                ),
+                Text('Quick Settings'),
+              ]
+            ),
+          ),
           Divider(
             color: Colors.black,
             thickness: 2,
           ),
-          TextFormField(
-            decoration: const InputDecoration(
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 8),
+            child: TextFormField(
+              decoration: const InputDecoration(
                 labelText: '1W Max Power',
-                hintText: '280'
+                hintText: '280',
+                contentPadding: EdgeInsets.symmetric(horizontal: 5),
+              ),
+              keyboardType: TextInputType.number,
+              controller: _maxPower1WDunkController,
+              onChanged: (String value) {
+                appData.maxPower1WDunk = double.parse(value);
+                updateMaxPower1W();
+              },
             ),
-            keyboardType: TextInputType.number,
-            controller: _maxPower1WDunkController,
-            onChanged: (String value) {
-              appData.maxPower1WDunk = double.parse(value);
-              updateMaxPower1W();
-            },
           ),
-          TextFormField(
-            decoration: const InputDecoration(
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 8),
+            child: TextFormField(
+              decoration: const InputDecoration(
                 labelText: '1W Tomahawk Max Power',
-                hintText: '290'
+                hintText: '290',
+                contentPadding: EdgeInsets.symmetric(horizontal: 5),
+              ),
+              keyboardType: TextInputType.number,
+              controller: _maxPower1WTomahawkController,
+              onChanged: (String value) {
+                appData.maxPower1WTomahawk = double.parse(value);
+                updateMaxPower1WPowershot();
+              },
             ),
-            keyboardType: TextInputType.number,
-            controller: _maxPower1WTomahawkController,
-            onChanged: (String value) {
-              appData.maxPower1WTomahawk = double.parse(value);
-              updateMaxPower1WPowershot();
-            },
           ),
           CheckboxListTile(
             title: const Text("Use Cosine"),
