@@ -44,7 +44,7 @@ class _Calculator1WDunkFormState extends State<Calculator1WDunkForm> {
   bool _isRadioSelected = true;
 
 //  var terrainDunk = {"100":0, "98":1.31, "97":1.83, "95":3.31, "92":5.13, "90":6.53, "85":10.14, "82":12.4, "80":13.92, "75":18.05, "70":21.53};
-  var terrainDunk = {"100":0, "98":1.3, "97":1.8, "95":3.3, "92":5.1, "90":6.5, "85":10.1, "82":12.4, "80":13.9, "75":18.0, "70":21.5};
+  var terrainDunk = {"100":0.0, "98":1.3, "97":1.8, "95":3.3, "92":5.1, "90":6.5, "85":10.1, "82":12.4, "80":13.9, "75":18.0, "70":21.5};
   double maxDist;
 
   @override
@@ -92,8 +92,23 @@ class _Calculator1WDunkFormState extends State<Calculator1WDunkForm> {
     super.dispose();
   }
 
-  double dunk1WHWICoefficient(double x){
-    return sqrt(2) * exp(-0.01160687 * x) + 0.03675829;
+  double hwiCoefficient1(double x) {
+    return 8.93157081e-04 * x * exp(-2.51729040e-02 * x) + 2.26400028e-04;
+  }
+
+  double hwiCoefficient2(double x) {
+    return  4.06342095e-01 * x * exp(-2.96413195e-03 * x) - 4.82573224e+01;
+  }
+
+  Function hwiCalculation(double x) {
+    double a = hwiCoefficient1(x);
+    double b = hwiCoefficient2(x);
+
+    double func(x) {
+      return a * x * (exp(8.30546152e-03 * x) + b);
+    }
+
+    return func;
   }
 
   double powerCoefficient1(double x) {
@@ -126,16 +141,22 @@ class _Calculator1WDunkFormState extends State<Calculator1WDunkForm> {
   }
 
   double terrainCalc(String terrain){
-    return terrainDunk[terrain] + 0.5*_pinDistance/maxDist;
+    double terrainEffect;
+    if(terrain != "100") {
+      terrainEffect = terrainDunk[terrain] + 0.5 * _pinDistance / maxDist;
+    } else {
+      terrainEffect = 0;
+    }
+    return terrainEffect;
   }
 
   void calculate1WDunk(){
     setState(() {
-      double hwiCoefficient = dunk1WHWICoefficient(_maxPower);
+      Function hwiFn = hwiCalculation(_maxPower);
       Function powerFn = powerCalc(_maxPower);
 
       double trueDist = _pinDistance + terrainCalc(terrain);
-//      print(maxDist);
+      print(trueDist);
 
       double deltaH;
       double inf;
@@ -157,7 +178,7 @@ class _Calculator1WDunkFormState extends State<Calculator1WDunkForm> {
       double realAltitude = _elevation * deltaH;
       double infH = 1 - (realAltitude / inf)/100;
 
-      double hwi = hwiCoefficient * (exp(0.01 * trueDist) - 1);
+      double hwi = hwiFn(trueDist);
       double windMovement = hwi * _windSpeed * cos(_windAngle*pi/180) * infH;
 
       if(_isRadioSelected == true){
