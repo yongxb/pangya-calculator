@@ -141,11 +141,9 @@ class _Calculator1WDunkFormState extends State<Calculator1WDunkForm> {
   }
 
   double terrainCalc(String terrain){
-    double terrainEffect;
+    double terrainEffect = 0;
     if(terrain != "100") {
       terrainEffect = terrainDunk[terrain] + 0.5 * _pinDistance / maxDist;
-    } else {
-      terrainEffect = 0;
     }
     return terrainEffect;
   }
