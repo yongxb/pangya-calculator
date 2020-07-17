@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import 'dart:math';
 import 'package:pangya_calculator/Screens/labeledRadio.dart';
+import 'package:pangya_calculator/appConfig.dart';
 
 class Calculator1WTomaForm extends StatefulWidget {
   @override
@@ -16,46 +17,30 @@ class _Calculator1WTomaFormState extends State<Calculator1WTomaForm> {
   double finalMovementCaliperRight;
   double finalMovement4CaliperLeft;
   double finalMovement4CaliperRight;
-  double _maxPower = 291;
-  double _pinDistance = 270;
-  double _elevation = 0;
-  double _windSpeed = 1;
-  double _windAngle = 45;
-  double _breaks = 0;
-
-  bool _isRadioSelected = true;
 
   var terrainToma = {"100":0, "98":2, "97":2.35, "95":4, "92":6.4, "90":8.6, "85":13.5, "82":15.2, "80":16.5, "75":21, "70":24.75};
   double maxDist;
 
   // Initialize Text Fields
-  TextEditingController  _maxPowerController = TextEditingController();
-  String maxPower = "291";
   TextEditingController  _pinDistanceController = TextEditingController();
-  String pinDistance = "270";
   TextEditingController  _elevationController = TextEditingController();
-  String elevation = "0";
   TextEditingController  _windSpeedController = TextEditingController();
-  String windSpeed = "1";
   TextEditingController  _windAngleController = TextEditingController();
-  String windAngle = "45";
   TextEditingController  _breaksController = TextEditingController();
-  String breaks = "0";
   TextEditingController  _terrainController = TextEditingController();
-  String terrain = "100";
 
   @override
   void initState() {
-    _maxPowerController.text = maxPower;
-    _pinDistanceController.text = pinDistance;
-    _elevationController.text = elevation;
-    _windSpeedController.text = windSpeed;
-    _windAngleController.text = windAngle;
-    _breaksController.text = breaks;
-    _terrainController.text = terrain;
+    _pinDistanceController.text = appData.pinDistance.toString();
+    _elevationController.text = appData.elevation.toString();
+    _windSpeedController.text = appData.windSpeed.toString();
+    _windAngleController.text = appData.windAngle.toString();
+    _breaksController.text = appData.breaks.toString();
+    _terrainController.text = appData.terrain;
 
     // initialize max Dist
-    maxDistCalc(291.0);
+    maxDistCalc(appData.maxPower1WTomahawk);
+    calculate1WToma();
     return super.initState();
   }
 
@@ -77,7 +62,6 @@ class _Calculator1WTomaFormState extends State<Calculator1WTomaForm> {
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
-    _maxPowerController.dispose();
     _pinDistanceController.dispose();
     _elevationController.dispose();
     _windSpeedController.dispose();
@@ -127,23 +111,29 @@ class _Calculator1WTomaFormState extends State<Calculator1WTomaForm> {
 
   void calculate1WToma(){
     setState(() {
-      Function hwiFn = hwiCalculation(_maxPower);
-      Function powerFn = powerCalculation(_maxPower);
+      Function hwiFn = hwiCalculation(appData.maxPower1WTomahawk);
+      Function powerFn = powerCalculation(appData.maxPower1WTomahawk);
 
-      double trueDist = _pinDistance + terrainToma[terrain];
+      double trueDist = appData.pinDistance + terrainToma[appData.terrain];
 //      print(maxDist);
+
+      double windAngle = appData.windAngle;
+
+      if (appData.useCosine == false){
+        windAngle = 90 - windAngle;
+      };
 
       double deltaH;
       double inf;
       double variation;
       double elevationInfH;
 
-      if(_elevation >= 0.0){
-        deltaH = 0.00150066 * _elevation + 0.67039036;
+      if(appData.elevation >= 0.0){
+        deltaH = 0.00150066 * appData.elevation + 0.67039036;
         inf = -3.06224853e-03  * trueDist + 3.70782116;
         variation = 1.0116;
       } else {
-        deltaH = 0.00135027 * _elevation + 0.65443427;
+        deltaH = 0.00135027 * appData.elevation + 0.65443427;
         inf = 0.00306225 * trueDist + 2.09217884;
         variation = 1.012;
       }
@@ -151,38 +141,38 @@ class _Calculator1WTomaFormState extends State<Calculator1WTomaForm> {
       deltaH = deltaH * pow(variation, (maxDist - trueDist));
       print(deltaH);
 
-      double realAltitude = _elevation * deltaH;
+      double realAltitude = appData.elevation * deltaH;
       double infH = 1 - (realAltitude / inf)/100;
       print(infH);
       double hwi = hwiFn(trueDist);
-      double windMovement = hwi * _windSpeed * cos(_windAngle*pi/180) * infH;
+      double windMovement = hwi * appData.windSpeed * cos(appData.windAngle*pi/180) * infH;
 
-      if(_isRadioSelected == true){
-        elevationInfH = hwi * _windSpeed * sin(_windAngle*pi/180) * 0.96 * (1-realAltitude*0.016);
+      if(appData.windDirection == true){
+        elevationInfH = hwi * appData.windSpeed * sin(appData.windAngle*pi/180) * 0.96 * (1-realAltitude*0.016);
         windMovement = windMovement * (1 - elevationInfH*2.75/400);
       } else {
-        elevationInfH = hwi * _windSpeed * sin(_windAngle*pi/180) * 1.23 * (1-realAltitude*0.016);
+        elevationInfH = hwi * appData.windSpeed * sin(appData.windAngle*pi/180) * 1.23 * (1-realAltitude*0.016);
         windMovement = windMovement / (1 - elevationInfH*4/625);
       }
 
-      finalMovement = (windMovement + _breaks*1.2/15*hwi/4) / 0.218;
+      finalMovement = (windMovement + appData.breaks*1.2/15*hwi/4) / 0.218;
 
       finalMovement = num.parse(finalMovement.toStringAsFixed(2));
-      finalMovementCaliperLeft = (0.5 - (finalMovement % 5) / 10) * _maxPower;
+      finalMovementCaliperLeft = (0.5 - (finalMovement % 5) / 10) * appData.maxPower1WTomahawk;
       finalMovementCaliperLeft = num.parse(finalMovementCaliperLeft.toStringAsFixed(2));
-      finalMovementCaliperRight = (0.5 + (finalMovement % 5) / 10) * _maxPower;
+      finalMovementCaliperRight = (0.5 + (finalMovement % 5) / 10) * appData.maxPower1WTomahawk;
       finalMovementCaliperRight = num.parse(finalMovementCaliperRight.toStringAsFixed(2));
 
       finalMovement4 = finalMovement / 4;
       finalMovement4 = num.parse(finalMovement4.toStringAsFixed(2));
 
-      finalMovement4CaliperLeft = (0.5 - (finalMovement4 % 5) / 10) * _maxPower;
+      finalMovement4CaliperLeft = (0.5 - (finalMovement4 % 5) / 10) * appData.maxPower1WTomahawk;
       finalMovement4CaliperLeft = num.parse(finalMovement4CaliperLeft.toStringAsFixed(2));
-      finalMovement4CaliperRight = (0.5 + (finalMovement4 % 5) / 10) * _maxPower;
+      finalMovement4CaliperRight = (0.5 + (finalMovement4 % 5) / 10) * appData.maxPower1WTomahawk;
       finalMovement4CaliperRight = num.parse(finalMovement4CaliperRight.toStringAsFixed(2));
 
       double force;
-      if(_isRadioSelected == true) {
+      if(appData.windDirection == true) {
         force = trueDist + realAltitude - elevationInfH;
       } else {
         force = trueDist + realAltitude + elevationInfH;
@@ -219,7 +209,7 @@ class _Calculator1WTomaFormState extends State<Calculator1WTomaForm> {
                       padding: const EdgeInsets.symmetric(
                         vertical: 5.0,
                       ),
-                      child: Text('Caliper power (Max Power: $maxPower | Terrain: $terrain)', textAlign: TextAlign.left,),
+                      child: Text('Caliper power (Max Power: ${appData.maxPower1WTomahawk} | Terrain: ${appData.terrain})', textAlign: TextAlign.left,),
                     ),
                   ),
                   new Text(
@@ -285,8 +275,7 @@ class _Calculator1WTomaFormState extends State<Calculator1WTomaForm> {
                             keyboardType: TextInputType.number,
                             controller: _pinDistanceController,
                             onChanged: (String value) {
-                              pinDistance = value;
-                              _pinDistance = double.parse(pinDistance);
+                              appData.pinDistance = double.parse(value);
                               calculate1WToma();
                             },
                           ),
@@ -300,8 +289,7 @@ class _Calculator1WTomaFormState extends State<Calculator1WTomaForm> {
                             keyboardType: TextInputType.number,
                             controller: _elevationController,
                             onChanged: (String value) {
-                              elevation = value;
-                              _elevation = double.parse(elevation);
+                              appData.elevation = double.parse(value);
                               calculate1WToma();
                             },
                           ),
@@ -320,8 +308,7 @@ class _Calculator1WTomaFormState extends State<Calculator1WTomaForm> {
                             keyboardType: TextInputType.number,
                             controller: _windSpeedController,
                             onChanged: (String value) {
-                              windSpeed = value;
-                              _windSpeed = double.parse(windSpeed);
+                              appData.windSpeed = double.parse(value);
                               calculate1WToma();
                             },
                           ),
@@ -335,8 +322,7 @@ class _Calculator1WTomaFormState extends State<Calculator1WTomaForm> {
                             keyboardType: TextInputType.number,
                             controller: _windAngleController,
                             onChanged: (String value) {
-                              windAngle = value;
-                              _windAngle = double.parse(windAngle);
+                              appData.windAngle = double.parse(value);
                               calculate1WToma();
                             },
                           ),
@@ -358,10 +344,10 @@ class _Calculator1WTomaFormState extends State<Calculator1WTomaForm> {
                         label: 'Forward',
                         padding: const EdgeInsets.symmetric(horizontal: 0.0),
                         value: true,
-                        groupValue: _isRadioSelected,
+                        groupValue: appData.windDirection,
                         onChanged: (bool newValue) {
                           setState(() {
-                            _isRadioSelected = newValue;
+                            appData.windDirection = newValue;
                           });
                           calculate1WToma();
                         },
@@ -370,10 +356,10 @@ class _Calculator1WTomaFormState extends State<Calculator1WTomaForm> {
                         label: 'Backward',
                         padding: const EdgeInsets.symmetric(horizontal: 0.0),
                         value: false,
-                        groupValue: _isRadioSelected,
+                        groupValue: appData.windDirection,
                         onChanged: (bool newValue) {
                           setState(() {
-                            _isRadioSelected = newValue;
+                            appData.windDirection = newValue;
                           });
                           calculate1WToma();
                         },
@@ -392,8 +378,7 @@ class _Calculator1WTomaFormState extends State<Calculator1WTomaForm> {
                             keyboardType: TextInputType.number,
                             controller: _breaksController,
                             onChanged: (String value) {
-                              breaks = value;
-                              _breaks = double.parse(breaks);
+                              appData.breaks = double.parse(value);
                               calculate1WToma();
                             },
                           ),
@@ -408,21 +393,7 @@ class _Calculator1WTomaFormState extends State<Calculator1WTomaForm> {
                     keyboardType: TextInputType.number,
                     controller: _terrainController,
                     onChanged: (String value) {
-                      terrain = value;
-                      calculate1WToma();
-                    },
-                  ),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                        labelText: 'Max Power',
-                        hintText: '280'
-                    ),
-                    keyboardType: TextInputType.number,
-                    controller: _maxPowerController,
-                    onChanged: (String value) {
-                      maxPower = value;
-                      _maxPower = double.parse(maxPower);
-                      maxDistCalc(_maxPower);
+                      appData.terrain = value;
                       calculate1WToma();
                     },
                   ),

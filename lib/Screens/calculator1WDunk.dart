@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import 'dart:math';
 import 'package:pangya_calculator/Screens/labeledRadio.dart';
+import 'package:pangya_calculator/appConfig.dart';
 
 class Calculator1WDunkForm extends StatefulWidget {
   @override
@@ -9,22 +10,13 @@ class Calculator1WDunkForm extends StatefulWidget {
 
 class _Calculator1WDunkFormState extends State<Calculator1WDunkForm> {
   // Initialize Text Fields
-  TextEditingController  _maxPowerController = TextEditingController();
-  String maxPower = "281";
   TextEditingController  _pinDistanceController = TextEditingController();
-  String pinDistance = "220";
   TextEditingController  _elevationController = TextEditingController();
-  String elevation = "0";
   TextEditingController  _windSpeedController = TextEditingController();
-  String windSpeed = "1";
   TextEditingController  _windAngleController = TextEditingController();
-  String windAngle = "45";
   TextEditingController  _breaksController = TextEditingController();
-  String breaks = "0";
   TextEditingController  _greenSlopeController = TextEditingController();
-  String greenSlope = "0";
   TextEditingController  _terrainController = TextEditingController();
-  String terrain = "100";
 
   double caliperPower = 230;
   double finalMovement = 0;
@@ -33,15 +25,6 @@ class _Calculator1WDunkFormState extends State<Calculator1WDunkForm> {
   double finalMovementCaliperRight;
   double finalMovement4CaliperLeft;
   double finalMovement4CaliperRight;
-  double _maxPower = 281;
-  double _pinDistance = 220;
-  double _elevation = 0;
-  double _windSpeed = 1;
-  double _windAngle = 45;
-  double _breaks = 0;
-  double _greenSlope = 0;
-
-  bool _isRadioSelected = true;
 
 //  var terrainDunk = {"100":0, "98":1.31, "97":1.83, "95":3.31, "92":5.13, "90":6.53, "85":10.14, "82":12.4, "80":13.92, "75":18.05, "70":21.53};
   var terrainDunk = {"100":0.0, "98":1.3, "97":1.8, "95":3.3, "92":5.1, "90":6.5, "85":10.1, "82":12.4, "80":13.9, "75":18.0, "70":21.5};
@@ -49,28 +32,28 @@ class _Calculator1WDunkFormState extends State<Calculator1WDunkForm> {
 
   @override
   void initState() {
-    _maxPowerController.text = maxPower;
-    _pinDistanceController.text = pinDistance;
-    _elevationController.text = elevation;
-    _windSpeedController.text = windSpeed;
-    _windAngleController.text = windAngle;
-    _breaksController.text = breaks;
-    _greenSlopeController.text = greenSlope;
-    _terrainController.text = terrain;
+    _pinDistanceController.text = appData.pinDistance.toString();
+    _elevationController.text = appData.elevation.toString();
+    _windSpeedController.text = appData.windSpeed.toString();
+    _windAngleController.text = appData.windAngle.toString();
+    _breaksController.text = appData.breaks.toString();
+    _greenSlopeController.text = appData.greenSlope.toString();
+    _terrainController.text = appData.terrain;
 
     // initialize max Dist
-    maxDistCalc(281.0);
+    maxDistCalc(appData.maxPower1WDunk);
+    calculate1WDunk();
     return super.initState();
   }
 
   void maxDistCalc(double maxPower) {
     setState(() {
       double _maxDistTemp = maxPower - 30;
-      Function powerFn = powerCalc(maxPower);
+      Function powerFn = powerCalc(appData.maxPower1WDunk);
       double _powerCalcMax = powerFn(_maxDistTemp);
 
-      while ((maxPower - _powerCalcMax).abs() > 0.01){
-        _maxDistTemp = _maxDistTemp + (maxPower - _powerCalcMax);
+      while ((appData.maxPower1WDunk - _powerCalcMax).abs() > 0.01){
+        _maxDistTemp = _maxDistTemp + (appData.maxPower1WDunk - _powerCalcMax);
         _powerCalcMax = powerFn(_maxDistTemp);
       }
 
@@ -81,7 +64,6 @@ class _Calculator1WDunkFormState extends State<Calculator1WDunkForm> {
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
-    _maxPowerController.dispose();
     _pinDistanceController.dispose();
     _elevationController.dispose();
     _windSpeedController.dispose();
@@ -143,69 +125,75 @@ class _Calculator1WDunkFormState extends State<Calculator1WDunkForm> {
   double terrainCalc(String terrain){
     double terrainEffect = 0;
     if(terrain != "100") {
-      terrainEffect = terrainDunk[terrain] + 0.5 * _pinDistance / maxDist;
+      terrainEffect = terrainDunk[terrain] + 0.5 * appData.pinDistance / maxDist;
     }
     return terrainEffect;
   }
 
   void calculate1WDunk(){
     setState(() {
-      Function hwiFn = hwiCalculation(_maxPower);
-      Function powerFn = powerCalc(_maxPower);
+      Function hwiFn = hwiCalculation(appData.maxPower1WDunk);
+      Function powerFn = powerCalc(appData.maxPower1WDunk);
 
-      double trueDist = _pinDistance + terrainCalc(terrain);
+      double trueDist = appData.pinDistance + terrainCalc(appData.terrain);
       print(trueDist);
+
+      double windAngle = appData.windAngle;
+
+      if (appData.useCosine == false){
+        windAngle = 90 - windAngle;
+      };
 
       double deltaH;
       double inf;
       double variation;
       double elevationInfH;
 
-      if(_elevation >= 0.0){
-        deltaH = 0.04656938 * exp(0.02410579 * _elevation) + 0.65046932;
+      if(appData.elevation >= 0.0){
+        deltaH = 0.04656938 * exp(0.02410579 * appData.elevation) + 0.65046932;
         inf = 3.8;
-        variation = 1.0130 + _elevation*0.00009;
+        variation = 1.0130 + appData.elevation*0.00009;
       } else {
-        deltaH = -0.01628496 * exp(-0.04846523 * _elevation) + 0.70932074;
-        inf = _pinDistance / (80 * pow(1.006, (maxDist - _pinDistance)));
+        deltaH = -0.01628496 * exp(-0.04846523 * appData.elevation) + 0.70932074;
+        inf = appData.pinDistance / (80 * pow(1.006, (maxDist - appData.pinDistance)));
         variation = 1.0112;
       }
 
       deltaH = deltaH * pow(variation, (maxDist - trueDist));
 
-      double realAltitude = _elevation * deltaH;
+      double realAltitude = appData.elevation * deltaH;
       double infH = 1 - (realAltitude / inf)/100;
 
       double hwi = hwiFn(trueDist);
-      double windMovement = hwi * _windSpeed * cos(_windAngle*pi/180) * infH;
+      double windMovement = hwi * appData.windSpeed * cos(windAngle*pi/180) * infH;
 
-      if(_isRadioSelected == true){
-        elevationInfH = hwi * _windSpeed * sin(_windAngle*pi/180) * (1-realAltitude*0.016);
+      if(appData.windDirection == true){
+        elevationInfH = hwi * appData.windSpeed * sin(windAngle*pi/180) * (1-realAltitude*0.016);
         windMovement = windMovement * (1 - elevationInfH*2.75/400);
         print(elevationInfH);
       } else {
-        elevationInfH = hwi * _windSpeed * sin(_windAngle*pi/180) * 1.3 * (1-realAltitude*0.013);
+        elevationInfH = hwi * appData.windSpeed * sin(windAngle*pi/180) * 1.3 * (1-realAltitude*0.013);
         windMovement = windMovement / (1 - elevationInfH*4/625);
       }
 
-      finalMovement = (windMovement + _breaks*1.2/15*hwi/4 + _greenSlope) / 0.218;
+      finalMovement = (windMovement + appData.breaks*1.2/15*hwi/4 + appData.greenSlope) / 0.218;
 
       finalMovement = num.parse(finalMovement.toStringAsFixed(2));
-      finalMovementCaliperLeft = (0.5 - (finalMovement % 5) / 10) * _maxPower;
+      finalMovementCaliperLeft = (0.5 - (finalMovement % 5) / 10) * appData.maxPower1WDunk;
       finalMovementCaliperLeft = num.parse(finalMovementCaliperLeft.toStringAsFixed(2));
-      finalMovementCaliperRight = (0.5 + (finalMovement % 5) / 10) * _maxPower;
+      finalMovementCaliperRight = (0.5 + (finalMovement % 5) / 10) * appData.maxPower1WDunk;
       finalMovementCaliperRight = num.parse(finalMovementCaliperRight.toStringAsFixed(2));
 
       finalMovement4 = finalMovement / 4;
       finalMovement4 = num.parse(finalMovement4.toStringAsFixed(2));
 
-      finalMovement4CaliperLeft = (0.5 - (finalMovement4 % 5) / 10) * _maxPower;
+      finalMovement4CaliperLeft = (0.5 - (finalMovement4 % 5) / 10) * appData.maxPower1WDunk;
       finalMovement4CaliperLeft = num.parse(finalMovement4CaliperLeft.toStringAsFixed(2));
-      finalMovement4CaliperRight = (0.5 + (finalMovement4 % 5) / 10) * _maxPower;
+      finalMovement4CaliperRight = (0.5 + (finalMovement4 % 5) / 10) * appData.maxPower1WDunk;
       finalMovement4CaliperRight = num.parse(finalMovement4CaliperRight.toStringAsFixed(2));
 
       double force;
-      if(_isRadioSelected == true) {
+      if(appData.windDirection == true) {
         force = trueDist + realAltitude - elevationInfH;
       } else {
         force = trueDist + realAltitude + elevationInfH;
@@ -214,7 +202,6 @@ class _Calculator1WDunkFormState extends State<Calculator1WDunkForm> {
       caliperPower = num.parse(caliperPower.toStringAsFixed(2));
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -242,7 +229,7 @@ class _Calculator1WDunkFormState extends State<Calculator1WDunkForm> {
                       padding: const EdgeInsets.symmetric(
                         vertical: 5.0,
                       ),
-                      child: Text('Caliper power (Max Power: $maxPower | Terrain: $terrain)', textAlign: TextAlign.left,),
+                      child: Text('Caliper power (Max Power: ${appData.maxPower1WDunk} | Terrain: ${appData.terrain})', textAlign: TextAlign.left,),
                     ),
                   ),
                   new Text(
@@ -308,8 +295,7 @@ class _Calculator1WDunkFormState extends State<Calculator1WDunkForm> {
                             keyboardType: TextInputType.number,
                             controller: _pinDistanceController,
                             onChanged: (String value) {
-                              pinDistance = value;
-                              _pinDistance = double.parse(pinDistance);
+                              appData.pinDistance = double.parse(value);
                               calculate1WDunk();
                             },
                           ),
@@ -323,8 +309,7 @@ class _Calculator1WDunkFormState extends State<Calculator1WDunkForm> {
                             keyboardType: TextInputType.number,
                             controller: _elevationController,
                             onChanged: (String value) {
-                              elevation = value;
-                              _elevation = double.parse(elevation);
+                              appData.elevation = double.parse(value);
                               calculate1WDunk();
                             },
                           ),
@@ -343,8 +328,7 @@ class _Calculator1WDunkFormState extends State<Calculator1WDunkForm> {
                             keyboardType: TextInputType.number,
                             controller: _windSpeedController,
                             onChanged: (String value) {
-                              windSpeed = value;
-                              _windSpeed = double.parse(windSpeed);
+                              appData.windSpeed = double.parse(value);
                               calculate1WDunk();
                             },
                           ),
@@ -358,8 +342,7 @@ class _Calculator1WDunkFormState extends State<Calculator1WDunkForm> {
                             keyboardType: TextInputType.number,
                             controller: _windAngleController,
                             onChanged: (String value) {
-                              windAngle = value;
-                              _windAngle = double.parse(windAngle);
+                              appData.windAngle = double.parse(value);
                               calculate1WDunk();
                             },
                           ),
@@ -381,10 +364,10 @@ class _Calculator1WDunkFormState extends State<Calculator1WDunkForm> {
                         label: 'Forward',
                         padding: const EdgeInsets.symmetric(horizontal: 0.0),
                         value: true,
-                        groupValue: _isRadioSelected,
+                        groupValue: appData.windDirection,
                         onChanged: (bool newValue) {
                           setState(() {
-                            _isRadioSelected = newValue;
+                            appData.windDirection = newValue;
                           });
                           calculate1WDunk();
                         },
@@ -393,10 +376,10 @@ class _Calculator1WDunkFormState extends State<Calculator1WDunkForm> {
                         label: 'Backward',
                         padding: const EdgeInsets.symmetric(horizontal: 0.0),
                         value: false,
-                        groupValue: _isRadioSelected,
+                        groupValue: appData.windDirection,
                         onChanged: (bool newValue) {
                           setState(() {
-                            _isRadioSelected = newValue;
+                            appData.windDirection = newValue;
                           });
                           calculate1WDunk();
                         },
@@ -415,8 +398,7 @@ class _Calculator1WDunkFormState extends State<Calculator1WDunkForm> {
                             keyboardType: TextInputType.number,
                             controller: _breaksController,
                             onChanged: (String value) {
-                              breaks = value;
-                              _breaks = double.parse(breaks);
+                              appData.breaks = double.parse(value);
                               calculate1WDunk();
                             },
                           ),
@@ -430,8 +412,7 @@ class _Calculator1WDunkFormState extends State<Calculator1WDunkForm> {
                             keyboardType: TextInputType.number,
                             controller: _greenSlopeController,
                             onChanged: (String value) {
-                              greenSlope = value;
-                              _greenSlope = double.parse(greenSlope);
+                              appData.greenSlope = double.parse(value);
                               calculate1WDunk();
                             },
                           ),
@@ -446,21 +427,7 @@ class _Calculator1WDunkFormState extends State<Calculator1WDunkForm> {
                     keyboardType: TextInputType.number,
                     controller: _terrainController,
                     onChanged: (String value) {
-                      terrain = value;
-                      calculate1WDunk();
-                    },
-                  ),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                        labelText: 'Max Power',
-                        hintText: '280'
-                    ),
-                    keyboardType: TextInputType.number,
-                    controller: _maxPowerController,
-                    onChanged: (String value) {
-                      maxPower = value;
-                      _maxPower = double.parse(maxPower);
-                      maxDistCalc(_maxPower);
+                      appData.terrain = value;
                       calculate1WDunk();
                     },
                   ),
