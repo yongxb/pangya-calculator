@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import 'dart:math';
 import 'package:pangya_calculator/Screens/labeledRadio.dart';
 import 'package:pangya_calculator/appConfig.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Calculator1WTomaForm extends StatefulWidget {
   @override
@@ -41,7 +42,15 @@ class _Calculator1WTomaFormState extends State<Calculator1WTomaForm> {
     // initialize max Dist
     maxDistCalc(appData.maxPower1WTomahawk);
     calculate1WToma();
-    return super.initState();
+    super.initState();
+    loadMaxPower1WPowershot();
+  }
+
+  loadMaxPower1WPowershot() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      appData.maxPower1WTomahawk = (prefs.getDouble('MaxPower1WPowershot') ?? appData.maxPower1WTomahawk);
+      });
   }
 
   void maxDistCalc(double maxPower) {

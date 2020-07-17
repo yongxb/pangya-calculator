@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:pangya_calculator/appConfig.dart";
+import "package:shared_preferences/shared_preferences.dart";
 
 class drawerWidget extends StatefulWidget {
   @override
@@ -25,6 +26,21 @@ class _drawerWidgetState extends State<drawerWidget> {
     _maxPower1WTomahawkController.dispose();
     super.dispose();
   }
+
+  updateMaxPower1W() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      prefs.setDouble('maxPower1WDunk', appData.maxPower1WDunk);
+    });
+  }
+
+  updateMaxPower1WPowershot() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      prefs.setDouble('MaxPower1WPowershot', appData.maxPower1WTomahawk);
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +72,7 @@ class _drawerWidgetState extends State<drawerWidget> {
             controller: _maxPower1WDunkController,
             onChanged: (String value) {
               appData.maxPower1WDunk = double.parse(value);
+              updateMaxPower1W();
             },
           ),
           TextFormField(
@@ -67,6 +84,7 @@ class _drawerWidgetState extends State<drawerWidget> {
             controller: _maxPower1WTomahawkController,
             onChanged: (String value) {
               appData.maxPower1WTomahawk = double.parse(value);
+              updateMaxPower1WPowershot();
             },
           ),
           CheckboxListTile(

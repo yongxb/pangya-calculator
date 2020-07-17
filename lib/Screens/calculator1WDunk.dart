@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import 'dart:math';
 import 'package:pangya_calculator/Screens/labeledRadio.dart';
 import 'package:pangya_calculator/appConfig.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Calculator1WDunkForm extends StatefulWidget {
   @override
@@ -43,7 +44,15 @@ class _Calculator1WDunkFormState extends State<Calculator1WDunkForm> {
     // initialize max Dist
     maxDistCalc(appData.maxPower1WDunk);
     calculate1WDunk();
-    return super.initState();
+    super.initState();
+    loadMaxPower1W();
+  }
+
+  loadMaxPower1W() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      appData.maxPower1WDunk = (prefs.getDouble('maxPower1WDunk') ?? appData.maxPower1WDunk);
+    });
   }
 
   void maxDistCalc(double maxPower) {
