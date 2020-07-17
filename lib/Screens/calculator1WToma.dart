@@ -18,7 +18,7 @@ class _Calculator1WTomaFormState extends State<Calculator1WTomaForm> {
   double finalMovement4CaliperLeft;
   double finalMovement4CaliperRight;
 
-  var terrainToma = {"100":0, "98":2, "97":2.35, "95":4, "92":6.4, "90":8.6, "85":13.5, "82":15.2, "80":16.5, "75":21, "70":24.75};
+  var terrainToma = {"100":0, "98":2, "97":2.35, "95":4, "92":6.4, "90":8.6, "87":11, "85":13.5, "84":14.3, "82":15.2, "80":16.5, "75":21, "70":24.75};
   double maxDist;
 
   // Initialize Text Fields
