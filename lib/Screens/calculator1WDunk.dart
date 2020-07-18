@@ -103,19 +103,19 @@ class _Calculator1WDunkFormState extends State<Calculator1WDunkForm> {
   }
 
   double powerCoefficient1(double x) {
-    return -1.15061980e+02 * exp(-8.67180403e-03* x) + 2.99284041e+01;
+    return 2.97168270e-01 * x * exp(-2.25331768e-03 * x) + -2.95019400e+01;
   }
 
   double powerCoefficient2(double x) {
-    return 0.02300804 * exp(-0.01446185 * x) + 0.00054072;
+    return -4.58548503e-05 * x * exp(-2.57389267e-03 * x) + 7.27105473e-03;
   }
 
   double powerCoefficient3(double x) {
-    return -1.72036246e+02 * exp(-8.62383846e-03 * x) + 4.81577645e+01;
+    return 4.53303323e-01 * x * exp(-2.25303853e-03 * x) + -4.18436780e+01;
   }
 
   double powerCoefficient4(double x) {
-    return 0.06027056 * exp(-0.01433265 * x) + 0.00140588;
+    return -1.21068257e-04 * x * exp(-2.56531945e-03 * x) + 1.92142294e-02;
   }
 
   Function powerCalc(double x) {
@@ -125,7 +125,7 @@ class _Calculator1WDunkFormState extends State<Calculator1WDunkForm> {
     double d = powerCoefficient4(x);
 
     double func(x) {
-      return x*a*log(b*x+2e-1) + x*c*exp(-d*x);
+      return x*a*log(b*x+1.86990009e-01) + x*c*exp(-d*x);
     }
 
     return func;
