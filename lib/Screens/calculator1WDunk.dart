@@ -207,7 +207,12 @@ class _Calculator1WDunkFormState extends State<Calculator1WDunkForm> {
       } else {
         force = trueDist + realAltitude + elevationInfH;
       }
+
+      //spin correction
+      double spinCorrection = 0.1*(11-appData.spin)*(260/appData.maxPower1WDunk)/appData.maxPower1WDunk*trueDist*exp((1.65/appData.maxPower1WDunk + 0.001)*trueDist);
+
       caliperPower = powerFn(force);
+      caliperPower = caliperPower + spinCorrection;
       caliperPower = num.parse(caliperPower.toStringAsFixed(2));
     });
   }

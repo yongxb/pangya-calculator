@@ -10,12 +10,13 @@ class drawerWidget extends StatefulWidget {
 class _drawerWidgetState extends State<drawerWidget> {
   TextEditingController  _maxPower1WDunkController = TextEditingController();
   TextEditingController  _maxPower1WTomahawkController = TextEditingController();
+  TextEditingController  _spinController = TextEditingController();
 
   @override
   void initState() {
     _maxPower1WDunkController.text = appData.maxPower1WDunk.toString();
     _maxPower1WTomahawkController.text = appData.maxPower1WTomahawk.toString();
-
+    _spinController.text = appData.spin.toString();
     return super.initState();
   }
 
@@ -24,6 +25,7 @@ class _drawerWidgetState extends State<drawerWidget> {
     // Clean up the controller when the widget is disposed.
     _maxPower1WDunkController.dispose();
     _maxPower1WTomahawkController.dispose();
+    _spinController.dispose();
     super.dispose();
   }
 
@@ -41,6 +43,12 @@ class _drawerWidgetState extends State<drawerWidget> {
     });
   }
 
+  updateSpin() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      prefs.setDouble('spin', appData.spin);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -101,6 +109,22 @@ class _drawerWidgetState extends State<drawerWidget> {
               controller: _maxPower1WTomahawkController,
               onChanged: (String value) {
                 appData.maxPower1WTomahawk = double.parse(value);
+                updateMaxPower1WPowershot();
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 8),
+            child: TextFormField(
+              decoration: const InputDecoration(
+                labelText: 'Spin',
+                hintText: '9',
+                contentPadding: EdgeInsets.symmetric(horizontal: 5),
+              ),
+              keyboardType: TextInputType.number,
+              controller: _spinController,
+              onChanged: (String value) {
+                appData.spin = double.parse(value);
                 updateMaxPower1WPowershot();
               },
             ),
