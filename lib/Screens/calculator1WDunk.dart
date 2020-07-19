@@ -44,14 +44,22 @@ class _Calculator1WDunkFormState extends State<Calculator1WDunkForm> {
     // initialize max Dist
     maxDistCalc(appData.maxPower1WDunk);
     calculate1WDunk();
-    super.initState();
     loadMaxPower1W();
+    loadSpin();
+    super.initState();
   }
 
   loadMaxPower1W() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       appData.maxPower1WDunk = (prefs.getDouble('maxPower1WDunk') ?? appData.maxPower1WDunk);
+    });
+  }
+
+  loadSpin() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      appData.spin = (prefs.getDouble('spin') ?? appData.spin);
     });
   }
 
@@ -103,19 +111,19 @@ class _Calculator1WDunkFormState extends State<Calculator1WDunkForm> {
   }
 
   double powerCoefficient1(double x) {
-    return 2.97168270e-01 * x * exp(-2.25331768e-03 * x) + -2.95019400e+01;
+    return 4.26429750e-01 * x * exp(-3.07463955e-03 * x) + -3.95234597e+01;
   }
 
   double powerCoefficient2(double x) {
-    return -4.58548503e-05 * x * exp(-2.57389267e-03 * x) + 7.27105473e-03;
+    return -3.48530803e-05 * x * exp(-2.29228295e-03 * x) + 6.27810660e-03;
   }
 
   double powerCoefficient3(double x) {
-    return 4.53303323e-01 * x * exp(-2.25303853e-03 * x) + -4.18436780e+01;
+    return 6.94796752e-01 * x * exp(-3.12482742e-03 * x) + -6.08535918e+01;
   }
 
   double powerCoefficient4(double x) {
-    return -1.21068257e-04 * x * exp(-2.56531945e-03 * x) + 1.92142294e-02;
+    return -9.10963253e-05 * x * exp(-2.27427465e-03 * x) + 1.64275303e-02;
   }
 
   Function powerCalc(double x) {
@@ -125,7 +133,7 @@ class _Calculator1WDunkFormState extends State<Calculator1WDunkForm> {
     double d = powerCoefficient4(x);
 
     double func(x) {
-      return x*a*log(b*x+1.86990009e-01) + x*c*exp(-d*x);
+      return x*a*log(b*x+1.70595627e-01) + x*c*exp(-d*x);
     }
 
     return func;
@@ -145,7 +153,7 @@ class _Calculator1WDunkFormState extends State<Calculator1WDunkForm> {
       Function powerFn = powerCalc(appData.maxPower1WDunk);
 
       double trueDist = appData.pinDistance + terrainCalc(appData.terrain);
-      print(trueDist);
+//      print(trueDist);
 
       double windAngle = appData.windAngle;
 
@@ -179,7 +187,7 @@ class _Calculator1WDunkFormState extends State<Calculator1WDunkForm> {
       if(appData.windDirection == true){
         elevationInfH = hwi * appData.windSpeed * sin(windAngle*pi/180) * (1-realAltitude*0.016);
         windMovement = windMovement * (1 - elevationInfH*2.75/400);
-        print(elevationInfH);
+//        print(elevationInfH);
       } else {
         elevationInfH = hwi * appData.windSpeed * sin(windAngle*pi/180) * 1.3 * (1-realAltitude*0.013);
         windMovement = windMovement / (1 - elevationInfH*4/625);
@@ -209,7 +217,7 @@ class _Calculator1WDunkFormState extends State<Calculator1WDunkForm> {
       }
 
       //spin correction
-      double spinCorrection = 0.1*(11-appData.spin)*(260/appData.maxPower1WDunk)/appData.maxPower1WDunk*trueDist*exp((1.65/appData.maxPower1WDunk + 0.001)*trueDist);
+      double spinCorrection = 0.1*(11-appData.spin)*(260/appData.maxPower1WDunk)/appData.maxPower1WDunk*trueDist*exp((1.62/appData.maxPower1WDunk + 0.001)*trueDist);
 
       caliperPower = powerFn(force);
       caliperPower = caliperPower + spinCorrection;
@@ -243,7 +251,7 @@ class _Calculator1WDunkFormState extends State<Calculator1WDunkForm> {
                       padding: const EdgeInsets.symmetric(
                         vertical: 5.0,
                       ),
-                      child: Text('Caliper power (Max Power: ${appData.maxPower1WDunk} | Terrain: ${appData.terrain})', textAlign: TextAlign.left,),
+                      child: Text('Caliper power (Max Power: ${appData.maxPower1WDunk} | Terrain: ${appData.terrain} | Spin: ${appData.spin})', textAlign: TextAlign.left,),
                     ),
                   ),
                   new Text(

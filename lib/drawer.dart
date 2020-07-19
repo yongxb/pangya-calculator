@@ -14,7 +14,11 @@ class _drawerWidgetState extends State<drawerWidget> {
 
   @override
   void initState() {
-    _maxPower1WDunkController.text = appData.maxPower1WDunk.toString();
+    loadMaxPower1W();
+    loadSpin();
+    loadMaxPower1WPowershot();
+
+    _maxPower1WDunkController.text =  appData.maxPower1WDunk.toString();
     _maxPower1WTomahawkController.text = appData.maxPower1WTomahawk.toString();
     _spinController.text = appData.spin.toString();
     return super.initState();
@@ -29,6 +33,26 @@ class _drawerWidgetState extends State<drawerWidget> {
     super.dispose();
   }
 
+  loadMaxPower1W() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      appData.maxPower1WDunk = (prefs.getDouble('maxPower1WDunk') ?? appData.maxPower1WDunk);
+    });
+  }
+
+  loadSpin() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      appData.spin = (prefs.getDouble('spin') ?? appData.spin);
+    });
+  }
+
+  loadMaxPower1WPowershot() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      appData.maxPower1WTomahawk = (prefs.getDouble('MaxPower1WPowershot') ?? appData.maxPower1WTomahawk);
+    });
+  }
   updateMaxPower1W() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -125,7 +149,7 @@ class _drawerWidgetState extends State<drawerWidget> {
               controller: _spinController,
               onChanged: (String value) {
                 appData.spin = double.parse(value);
-                updateMaxPower1WPowershot();
+                updateSpin();
               },
             ),
           ),
