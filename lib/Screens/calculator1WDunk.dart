@@ -111,19 +111,19 @@ class _Calculator1WDunkFormState extends State<Calculator1WDunkForm> {
   }
 
   double powerCoefficient1(double x) {
-    return 4.26429750e-01 * x * exp(-3.07463955e-03 * x) + -3.95234597e+01;
+    return 3.05374056e-01 * x * exp(-2.69121103e-03 * x) + -2.80957825e+01;
   }
 
   double powerCoefficient2(double x) {
-    return -3.48530803e-05 * x * exp(-2.29228295e-03 * x) + 6.27810660e-03;
+    return -4.52204558e-05 * x * exp(-2.49174122e-03 * x) + 7.40198724e-03;
   }
 
   double powerCoefficient3(double x) {
-    return 6.94796752e-01 * x * exp(-3.12482742e-03 * x) + -6.08535918e+01;
+    return 8.61935227e-01 * x * exp(-2.71904919e-03 * x) + -7.28564602e+01;
   }
 
   double powerCoefficient4(double x) {
-    return -9.10963253e-05 * x * exp(-2.27427465e-03 * x) + 1.64275303e-02;
+    return -1.18886597e-04 * x * exp(-2.48326657e-03 * x) + 1.94548069e-02;
   }
 
   Function powerCalc(double x) {
@@ -133,7 +133,7 @@ class _Calculator1WDunkFormState extends State<Calculator1WDunkForm> {
     double d = powerCoefficient4(x);
 
     double func(x) {
-      return x*a*log(b*x+1.70595627e-01) + x*c*exp(-d*x);
+      return x*a*log(b*x+1.77068288e-01) + x*c*exp(-d*x-5.97206829e-01)  +  2.77634837e-02;
     }
 
     return func;
@@ -145,6 +145,16 @@ class _Calculator1WDunkFormState extends State<Calculator1WDunkForm> {
       terrainEffect = terrainDunk[terrain] + 0.5 * appData.pinDistance / maxDist;
     }
     return terrainEffect;
+  }
+
+  double elevationCalc(double altitude, double trueDist){
+    double diffDistance = maxDist-trueDist;
+
+    double a = 3.74221103e-01*altitude;
+    double b = 7.55453429e-09*exp(-3.60702891e-01*altitude) + 1.28973673e-02;
+    double c = -4.77599897e-03*exp(4.70378180e-03*altitude) + 5.16694815e-03;
+
+    return a/(exp(-b*diffDistance + -6.25404185e-01)+c*diffDistance);
   }
 
   void calculate1WDunk(){
@@ -161,24 +171,17 @@ class _Calculator1WDunkFormState extends State<Calculator1WDunkForm> {
         windAngle = 90 - windAngle;
       }
 
-      double deltaH;
       double inf;
-      double variation;
       double elevationInfH;
 
       if(appData.elevation >= 0.0){
-        deltaH = 0.04656938 * exp(0.02410579 * appData.elevation) + 0.65046932;
-        inf = 3.8;
-        variation = 1.0130 + appData.elevation*0.00009;
+        inf = 3.3;
       } else {
-        deltaH = -0.01628496 * exp(-0.04846523 * appData.elevation) + 0.70932074;
-        inf = appData.pinDistance / (80 * pow(1.006, (maxDist - appData.pinDistance)));
-        variation = 1.0112;
+        inf = 2.5; //appData.pinDistance / (80 * pow(1.006, (maxDist - appData.pinDistance)));
       }
 
-      deltaH = deltaH * pow(variation, (maxDist - trueDist));
+      double realAltitude = elevationCalc(appData.elevation, trueDist);
 
-      double realAltitude = appData.elevation * deltaH;
       double infH = 1 - (realAltitude / inf)/100;
 
       double hwi = hwiFn(trueDist);
@@ -217,10 +220,10 @@ class _Calculator1WDunkFormState extends State<Calculator1WDunkForm> {
       }
 
       //spin correction
-      double spinCorrection = 0.1*(11-appData.spin)*(260/appData.maxPower1WDunk)/appData.maxPower1WDunk*trueDist*exp((1.62/appData.maxPower1WDunk + 0.001)*trueDist);
+      double spinCorrection = 0.4*(11-appData.spin)*(1+(260-appData.maxPower1WDunk)/appData.maxPower1WDunk)/appData.maxPower1WDunk*trueDist*exp((0.4 + 0.0008*appData.maxPower1WDunk)/appData.maxPower1WDunk*trueDist);
+//      print(spinCorrection);
 
-      caliperPower = powerFn(force);
-      caliperPower = caliperPower + spinCorrection;
+      caliperPower = powerFn(force + spinCorrection);
       caliperPower = num.parse(caliperPower.toStringAsFixed(2));
     });
   }
