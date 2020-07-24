@@ -38,6 +38,12 @@ class Calculator6i {
 
     double trueDist = inputs.pinDistance * terrainDunk[inputs.terrain];
 
+    double windAngle = inputs.windAngle;
+
+    if (appData.useCosine == false) {
+      windAngle = 90 - windAngle;
+    }
+
     double deltaH;
     double inf;
     double variation;
@@ -60,13 +66,13 @@ class Calculator6i {
 
     print(realAltitude);
     double hwi = hwiCoefficient * (exp(0.01 * trueDist) - 1);
-    double windMovement = hwi * inputs.windSpeed * cos(inputs.windAngle*pi/180) * infH;
+    double windMovement = hwi * inputs.windSpeed * cos(windAngle*pi/180) * infH;
 
     if(inputs.windDirection == true){
-      elevationInfH = hwi * inputs.windSpeed * sin(inputs.windAngle*pi/180) * (1-realAltitude*0.016);
+      elevationInfH = hwi * inputs.windSpeed * sin(windAngle*pi/180) * (1-realAltitude*0.016);
       windMovement = windMovement * (1 - elevationInfH*2.75/400);
     } else {
-      elevationInfH = hwi * inputs.windSpeed * sin(inputs.windAngle*pi/180) * 1.3 * (1-realAltitude*0.013);
+      elevationInfH = hwi * inputs.windSpeed * sin(windAngle*pi/180) * 1.3 * (1-realAltitude*0.013);
       windMovement = windMovement / (1 - elevationInfH*4/625);
     }
 
@@ -86,7 +92,7 @@ class Calculator6i {
     results.finalMovement4CaliperRight = num.parse(finalMovement4CaliperRight.toStringAsFixed(2));
 
     double force;
-    if(appData.windDirection == true) {
+    if(inputs.windDirection == true) {
       force = trueDist + realAltitude - elevationInfH;
     } else {
       force = trueDist + realAltitude + elevationInfH;

@@ -117,21 +117,13 @@ class Calculator1WTomahawk {
     print(infH);
     double hwi = hwiFn(trueDist);
     double windMovement =
-        hwi * inputs.windSpeed * cos(inputs.windAngle * pi / 180) * infH;
+        hwi * inputs.windSpeed * cos(windAngle * pi / 180) * infH;
 
     if (inputs.windDirection == true) {
-      elevationInfH = hwi *
-          inputs.windSpeed *
-          sin(inputs.windAngle * pi / 180) *
-          0.96 *
-          (1 - realAltitude * 0.016);
+      elevationInfH = hwi * inputs.windSpeed * sin(windAngle * pi / 180) * 0.96 * (1 - realAltitude * 0.016);
       windMovement = windMovement * (1 - elevationInfH * 2.75 / 400);
     } else {
-      elevationInfH = hwi *
-          inputs.windSpeed *
-          sin(inputs.windAngle * pi / 180) *
-          1.23 *
-          (1 - realAltitude * 0.016);
+      elevationInfH = hwi * inputs.windSpeed * sin(windAngle * pi / 180) * 1.23 * (1 - realAltitude * 0.016);
       windMovement = windMovement / (1 - elevationInfH * 4 / 625);
     }
 
@@ -161,7 +153,7 @@ class Calculator1WTomahawk {
         num.parse(finalMovement4CaliperRight.toStringAsFixed(2));
 
     double force;
-    if (appData.windDirection == true) {
+    if (inputs.windDirection == true) {
       force = trueDist + realAltitude - elevationInfH;
     } else {
       force = trueDist + realAltitude + elevationInfH;
