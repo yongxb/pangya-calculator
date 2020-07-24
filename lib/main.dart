@@ -1,10 +1,10 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-import 'package:pangya_calculator/Screens/calculator1WDunk.dart';
-import 'package:pangya_calculator/Screens/calculator6i.dart';
-import 'package:pangya_calculator/Screens/calculator1WToma.dart';
+import 'package:pangya_calculator/Screens/settingsPage.dart';
+import 'package:pangya_calculator/blocs/calculatorBloc.dart';
 import 'package:pangya_calculator/drawer.dart';
+import 'package:pangya_calculator/Screens/calculatorWidget.dart';
+import 'package:pangya_calculator/blocs/calculatorProvider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
   runApp(MyApp());
@@ -19,38 +19,37 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: tabBar(),
+      home: HomePage(),
     );
   }
 }
 
-class tabBar extends StatelessWidget {
-  final List<Tab> myTabs = <Tab>[
-    Tab(text: '1W Dunk'),
-    Tab(text: '1W Toma'),
-    Tab(text: '6i Beam'),
-  ];
-
+class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: myTabs.length,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text("Pangya Calculator"),
-          bottom: TabBar(
-            tabs: myTabs,
-          ),
-        ),
-        drawer: drawerWidget(),
-        body: TabBarView(
-          children: [
-            Calculator1WDunkForm(),
-            Calculator1WTomaForm(),
-            Calculator6iForm(),
-          ]
-        ),
-      ),
+    return BlocProvider(
+        create: (_) => CalculatorBloc(),
+        child: Scaffold(
+            appBar: AppBar(
+              title: const Text("Pangya Calculator"),
+              actions: <Widget>[
+                IconButton(
+                    icon: Icon(Icons.settings),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SettingsPage()),
+                      );
+                    }
+                )
+              ],
+            ),
+            body: SingleChildScrollView (
+              child: Center(
+              child: CalculatorWidget(),
+            )
+          )
+        )
     );
   }
 }

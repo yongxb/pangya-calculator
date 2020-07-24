@@ -2,12 +2,11 @@ import "package:flutter/material.dart";
 import "package:pangya_calculator/appConfig.dart";
 import "package:shared_preferences/shared_preferences.dart";
 
-class DrawerWidget extends StatefulWidget {
-  @override
-  _DrawerWidgetState createState() => _DrawerWidgetState();
+class SettingsPage extends StatefulWidget {
+  _SettingsPageState createState() => _SettingsPageState();
 }
 
-class _DrawerWidgetState extends State<DrawerWidget> {
+class _SettingsPageState extends State<SettingsPage> {
   TextEditingController  _maxPower1WDunkController = TextEditingController();
   TextEditingController  _maxPower1WTomahawkController = TextEditingController();
   TextEditingController  _spinController = TextEditingController();
@@ -76,29 +75,23 @@ class _DrawerWidgetState extends State<DrawerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Drawer(
-      // Add a ListView to the drawer. This ensures the user can scroll
-      // through the options in the drawer if there isn't enough vertical
-      // space to fit everything.
-      child: ListView(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Settings Page'),
+      ),
+      body: ListView(
         // Important: Remove any padding from the ListView.
         padding: EdgeInsets.zero,
         children: <Widget>[
-          DrawerHeader(
-            child: Text(''),
-            decoration: BoxDecoration(
-              color: Colors.blue,
-            ),
-          ),
           Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.only(top: 20, left: 8),
             child: Row(
-              children: <Widget>[
-                Icon(
-                  Icons.settings,
-                ),
-                Text('Quick Settings'),
-              ]
+                children: <Widget>[
+                  Icon(
+                    Icons.settings,
+                  ),
+                  Text('Power settings'),
+                ]
             ),
           ),
           Divider(
@@ -118,6 +111,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               onChanged: (String value) {
                 appData.maxPower1WDunk = double.parse(value);
                 updateMaxPower1W();
+//                context.bloc<CalculatorBloc>().add(CalculatorEvent(EventType.updatePinDistance, value));
               },
             ),
           ),

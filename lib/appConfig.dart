@@ -1,22 +1,14 @@
 class AppData {
   static final AppData _appData = new AppData._internal();
 
-  String text;
-
-  double maxPower1WDunk = 281;
-  double maxPower1WTomahawk = 291;
+  double maxPower1WDunk = 291;
+  double maxPower1WTomahawk = 301;
   double maxPower6i = 141;
 
   bool useCosine = true;
   String angleFunction = 'Cosine';
 
-  double pinDistance = 220;
-  double elevation = 0;
-  double windSpeed = 1;
-  double windAngle = 45;
-  double breaks = 0;
-  double greenSlope = 0;
-  double spin = 9;
+  double spin = 11;
   String terrain = "100";
   bool windDirection = true;
 

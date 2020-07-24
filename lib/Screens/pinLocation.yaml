@@ -1,0 +1,663 @@
+course:
+  blueLagoon:
+    name: "Blue Lagoon"
+    holes:
+      H2:
+        name: "H2"
+        par: 3
+        tilt: "Flat"
+        pins:
+          pin1:
+            pinDistance: 224.42
+            pinHeight: -3.41
+            tilt: 0
+          pin2:
+            pinDistance: 227.72
+            pinHeight: -3.65
+            tilt: 0
+          pin3:
+            pinDistance: 230.82
+            pinHeight: -3.1
+            tilt: 0
+      H3:
+        name: "H3"
+        par: 4
+        tilt: "Left Tilt"
+        pins:
+          pin1:
+            pinDistance: 368.4
+            pinHeight: 0.15
+            tilt: 0.04
+          pin2:
+            pinDistance: 371.6
+            pinHeight: 0.33
+            tilt: 0.07
+          pin3:
+            pinDistance: 381.1
+            pinHeight: 0.27
+            tilt: 0.27
+      H4:
+        name: "H4"
+        par: 4
+        tilt: "Left Tilt"
+        pins:
+          pin1:
+            pinDistance: 369.28
+            pinHeight: -3.04
+            tilt: 0.22
+          pin2:
+            pinDistance: 370.7
+            pinHeight: -3.25
+            tilt: 0.29
+          pin3:
+            pinDistance: 375.35
+            pinHeight: -3.46
+            tilt: 0.33
+      H6:
+        name: "H6"
+        par: 3
+        tilt: "Flat"
+        pins:
+          pin1:
+            pinDistance: 214.57
+            pinHeight: -2.20
+            tilt: 0
+          pin2:
+            pinDistance: 215.62
+            pinHeight: -2.64
+            tilt: 0
+          pin3:
+            pinDistance: 226.18
+            pinHeight: -2.5
+            tilt: 0
+      H10:
+        name: "H10"
+        par: 3
+        tilt: "Flat"
+        pins:
+          pin1:
+            pinDistance: 282.83
+            pinHeight: -2.97
+            tilt: 0
+          pin2:
+            pinDistance: 289.14
+            pinHeight: -2.67
+            tilt: 0
+          pin3:
+            pinDistance: 291.39
+            pinHeight: -2.48
+            tilt: 0
+      H15:
+        name: "H15"
+        par: 5
+        tilt: "Flat"
+        pins:
+          pin1:
+            pinDistance: 260.73
+            pinHeight: -0.05
+            tilt: 0
+          pin2:
+            pinDistance: 270.14
+            pinheight: -0.05
+            tilt: 0
+          pin3:
+            pinDistance: 278.51
+            pinHeight: -0.04
+            tilt: 0
+      H16:
+        name: "H16"
+        par: 3
+        tilt: "Flat"
+        pins:
+          pin1:
+            pinDistance: 219.5
+            pinHeight: -6.25
+            tilt: 0
+          pin2:
+            pinDistance: 231.41
+            pinHeight: -5.52
+            tilt: 0
+          pin3:
+            pinDistance: 236.44
+            pinHeight: -5.41
+            tilt: 0
+  lostSeaway:
+    name: "Lost Seaway"
+    holes:
+      H2:
+        name: "H2"
+        par: 3
+        tilt: "Flat"
+        pins:
+          pin1:
+            pinDistance: 229.52
+            pinHeight: 0.23
+            tilt: 0
+          pin2:
+            pinDistance: 234.19
+            pinHeight: 0.38
+            tilt: 0
+          pin3:
+            pinDistance: 256.34
+            pinHeight: 0.47
+            tilt: 0
+      H5:
+        name: "H5"
+        par: 4
+        tilt: "Flat"
+        pins:
+          pin1:
+            pinDistance: 323.77
+            pinHeight: -7.07
+            tilt: 0
+          pin2:
+            pinDistance: 333.01
+            pinHeight: -7.00
+            tilt: 0
+          pin3:
+            pinDistance: 339.3
+            pinHeight: -6.79
+            tilt: 0
+      H8:
+        name: "H8"
+        par: 4
+        tilt: "Flat"
+        pins:
+          pin1:
+            pinDistance: 302.33
+            pinHeight: -13.1
+            tilt: 0
+          pin2:
+            pinDistance: 306.59
+            pinHeight: -13.1
+            tilt: 0
+          pin3:
+            pinDistance: 314.39
+            pinHeight: -13.2
+            tilt: 0
+      H10:
+        name: "H10"
+        par: 3
+        tilt: "Flat"
+        pins:
+          pin1:
+            pinDistance: 229.94
+            pinHeight: -11.9
+            tilt: 0
+          pin2:
+            pinDistance: 239.4
+            pinHeight: -11.8
+            tilt: 0
+          pin3:
+            pinDistance: 247.29
+            pinHeight: -11.5
+            tilt: 0
+      H11:
+        name: "H11"
+        par: 4
+        tilt: "Flat"
+        pins:
+          pin1:
+            pinDistance: 349.48
+            pinHeight: -14.2
+            tilt: 0
+          pin2:
+            pinDistance: 355.88
+            pinHeight: -14.2
+            tilt: 0
+          pin3:
+            pinDistance: 362.53
+            pinHeight: -14.2
+            tilt: 0
+      H13:
+        name: "H13"
+        par: 4
+        tilt: "Flat"
+        pins:
+          pin1:
+            pinDistance: 286.98
+            pinHeight: -13.9
+            tilt: 0
+          pin2:
+            pinDistance: 293.22
+            pinHeight: -14.10
+            tilt: 0
+          pin3:
+            pinDistance: 300.25
+            pinHeight: -14.1
+            tilt: 0
+      H14:
+        name: "H14"
+        par: 4
+        tilt: "Flat"
+        pins:
+          pin1:
+            pinDistance: 205.79
+            pinHeight: -11.7
+            tilt: 0
+          pin2:
+            pinDistance: 216.75
+            pinHeight: -11.8
+            tilt: 0
+          pin3:
+            pinDistance: 225.27
+            pinHeight: -11.6
+            tilt: 0
+      H17:
+        name: "H17"
+        par: 3
+        tilt: "Flat"
+        pins:
+          pin1:
+            pinDistance: 256.84
+            pinHeight: -21.5
+            tilt: 0
+          pin2:
+            pinDistance: 259.91
+            pinHeight: -21.4
+            tilt: 0
+          pin3:
+            pinDistance: 272.3
+            pinHeight: -21.1
+            tilt: 0
+  iceSpa:
+    name: "Ice Spa"
+    holes:
+      H1:
+        name: "H1"
+        par: 4
+        tilt: "Flat"
+        pins:
+          pin1:
+            pinDistance: 377.6
+            pinHeight: -27.4
+            tilt: 0
+          pin2:
+            pinDistance: 381.43
+            pinHeight: -27.4
+            tilt: 0
+      H2:
+        name: "H2"
+        par: 3
+        tilt: "Flat"
+        pins:
+          pin1:
+            pinDistance: 231.68
+            pinHeight: -7.53
+            tilt: 0
+          pin2:
+            pinDistance: 236.08
+            pinHeight: -7.53
+            tilt: 0
+          pin3:
+            pinDistance: 239.41
+            pinHeight: -7.55
+            tilt: 0
+      H4:
+        name: "H4"
+        par: 4
+        tilt: "Left Tilt"
+        pins:
+          pin1:
+            pinDistance: 344.55
+            pinHeight: -20.6
+            tilt: 0.19
+          pin2:
+            pinDistance: 351.85
+            pinHeight: -20.70
+            tilt: 0.15
+          pin3:
+            inDistance: 353.45
+            pinHeight: -20.40
+            tilt: 0.11
+      H5:
+        name: "H5"
+        par: 4
+        tilt: "Flat"
+        pins:
+          pin1:
+            pinDistance: 275
+            pinHeight: -17.5
+            tilt: 0
+          pin2:
+            pinDistance: 282.42
+            pinHeight: -17.5
+            tilt: 0
+          pin3:
+            pinDistance: 284.11
+            pinHeight: -17.5
+            tilt: 0
+      H6:
+        name: "H6"
+        par: 3
+        tilt: "Flat"
+        pins:
+          pin1:
+            pinDistance: 233.47
+            pinHeight: -12.3
+            tilt: 0
+          pin2:
+            pinDistance: 238.91
+            pinHeight: -11.9
+            tilt: 0
+          pin3:
+            pinDistance: 239.62
+            pinHeight: -12.1
+            tilt: 0
+      H8:
+        name: "H8"
+        par: 3
+        tilt: "Left Tilt"
+        pins:
+          pin1:
+            pinDistance: 371.67
+            pinHeight: -71.3
+            tilt: 0.15
+          pin2:
+            pinDistance: 379.2
+            pinHeight: -71.3
+            tilt: 0.17
+          pin3:
+            pinDistance: 381.35
+            pinHeight: -71.1
+            tilt: 0.08
+      H9:
+        name: "H9"
+        par: 5
+        tilt: "Flat"
+        pins:
+          pin1:
+            pinDistance: 263.86
+            pinHeight: -9.66
+            tilt: 0
+          pin2:
+            pinDistance: 268.14
+            pinHeight: -9.76
+            tilt: 0
+          pin3:
+            pinDistance: 269.7
+            pinHeight: -9.74
+            tilt: 0
+      H10:
+        name: "H10"
+        par: 3
+        tilt: "Flat"
+        pins:
+          pin1:
+            pinDistance: 232.03
+            pinHeight: -19.4
+            tilt: 0
+          pin2:
+            pinDistance: 233.84
+            pinHeight: -19.4
+            tilt: 0
+      H11:
+        name: "H11"
+        par: 4
+        tilt: "Flat"
+        pins:
+          pin1:
+            pinDistance: 303.43
+            pinHeight: -20.4
+            tilt: 0
+          pin2:
+            pinDistance: 310.14
+            pinHeight: -20.10
+            tilt: 0
+      H14:
+        name: "H14"
+        par: 4
+        tilt: "Flat"
+        pins:
+          pin1:
+            pinDistance: 230.01
+            pinHeight: -13.8
+            tilt: 0
+          pin2:
+            pinDistance: 237.76
+            pinHeight: -13.8
+            tilt: 0
+          pin3:
+            pinDistance: 241.21
+            pinHeight: -13.9
+            tilt: 0
+      H15:
+        name: "H15"
+        par: 3
+        tilt: "Flat"
+        pins:
+          pin1:
+            pinDistance: 233.16
+            pinHeight: -2.51
+            tilt: 0
+          pin2:
+            pinDistance: 236.88
+            pinHeight: -2.8
+            tilt: 0
+          pin3:
+            pinDistance: 238.65
+            pinHeight: -2.57
+            tilt: 0
+      H16:
+        name: "H16"
+        par: 3
+        tilt: "Left Tilt"
+        pins:
+          pin1:
+            pinDistance: 349.42
+            pinHeight: -13.8
+            tilt: 0.14
+          pin2:
+            pinDistance: 352.15
+            pinHeight: -14.1
+            tilt: 0.15
+          pin3:
+            pinDistance: 354.02
+            pinHeight: -13.8
+            tilt: 0.16
+      H17:
+        name: "H17"
+        par: 4
+        tilt: "Flat"
+        pins:
+          pin1:
+            pinDistance: 317.83
+            pinHeight: -43.7
+            tilt: 0
+          pin2:
+            pinDistance: 326.45
+            pinHeight: -43.6
+            tilt: 0
+  pinkWind:
+    name: "Pink Wind"
+    holes:
+      H1:
+        name: "H1"
+        par: 4
+        tilt: "Flat"
+        pins:
+          pin1:
+            pinDistance: 337.78
+            pinHeight: -3.44
+            tilt: 0
+          pin2:
+            pinDistance: 352.11
+            pinHeight: -3.36
+            tilt: 0
+          pin3:
+            pinDistance: 356.74
+            pinHeight: -3.37
+            tilt: 0
+      H2:
+        name: "H2"
+        par: 3
+        tilt: "Flat"
+        pins:
+          pin1:
+            pinDistance: 211.21
+            pinHeight: -2.76
+            tilt: 0
+          pin2:
+            pinDistance: 223.29
+            pinHeight: -2.66
+            tilt: 0
+          pin3:
+            pinDistance: 231.31
+            pinHeight: -2.33
+            tilt: 0
+      H4:
+        name: "H4"
+        par: 5
+        tilt: "Flat"
+        pins:
+          pin1:
+            pinDistance: 323.54
+            pinHeight: -8.82
+            tilt: 0
+          pin2:
+            pinDistance: 326.78
+            pinHeight: -8.82
+            tilt: 0
+          pin3:
+            pinDistance: 330.02
+            pinHeight: -8.82
+            tilt: 0
+      H6:
+        name: "H6"
+        par: 3
+        tilt: "Flat"
+        pins:
+          pin1:
+            pinDistance: 230.46
+            pinHeight: 6.65
+            tilt: 0
+          pin2:
+            pinDistance: 238.15
+            pinHeight: 6.97
+            tilt: 0
+          pin3:
+            pinDistance: 240.1
+            pinHeight: 6.93
+            tilt: 0
+      H12:
+        name: "H12"
+        par: 3
+        tilt: "Flat"
+        pins:
+          pin1:
+            pinDistance: 235.27
+            pinHeight: -1.29
+            tilt: 0
+          pin2:
+            pinDistance: 240.98
+            pinHeight: -1.36
+            tilt: 0
+          pin3:
+            pinDistance: 244.06
+            pinHeight: -1.39
+            tilt: 0
+      H16:
+        name: "H16"
+        par: 3
+        tilt: "Flat"
+        pins:
+          pin1:
+            pinDistance: 227.81
+            pinHeight: 15.6
+            tilt: 0
+          pin2:
+            pinDistance: 236.86
+            pinHeight: 15.6
+            tilt: 0
+          pin3:
+            pinDistance: 237.14
+            pinHeight: 15.6
+            tilt: 0
+  westWiz:
+    name: "West Wiz"
+    holes:
+      H2:
+        name: "H2"
+        par: 3
+        tilt: "Flat"
+        pins:
+          pin1:
+            pinDistance: 207.44
+            pinHeight: -3.01
+            tilt: 0
+          pin2:
+            pinDistance: 211.23
+            pinHeight: -2.92
+            tilt: 0
+          pin3:
+            pinDistance: 220.86
+            pinHeight: -2.69
+            tilt: 0
+      H6:
+        name: "H6"
+        par: 3
+        tilt: "Flat"
+        pins:
+          pin1:
+            pinDistance: 212.44
+            pinHeight: -5
+            tilt: 0
+          pin2:
+            pinDistance: 215.47
+            pinHeight: -4.93
+            tilt: 0
+          pin3:
+            pinDistance: 242.43
+            pinHeight: -4.71
+            tilt: 0
+      H11:
+        name: "H11"
+        par: 4
+        tilt: "Flat"
+        pins:
+          pin1:
+            pinDistance: 319.96
+            pinHeight: -13.1
+            tilt: 0
+          pin2:
+            pinDistance: 323.54
+            pinHeight: -12.8
+            tilt: 0
+          pin3:
+            pinDistance: 344.95
+            pinHeight: -12.8
+            tilt: 0
+      H14:
+        name: "H14"
+        par: 3
+        tilt: "Flat"
+        pins:
+          pin1:
+            pinDistance: 199.41
+            pinHeight: 14.4
+            tilt: 0
+          pin2:
+            pinDistance: 199.55
+            pinHeight: 14.6
+            tilt: 0
+          pin3:
+            pinDistance: 205.69
+            pinHeight: 14.5
+            tilt: 0
+      H16:
+        name: "H16"
+        par: 3
+        tilt: "Flat"
+        pins:
+          pin1:
+            pinDistance: 209
+            pinHeight: -8.36
+            tilt: 0
+          pin2:
+            pinDistance: 218.86
+            pinHeight: -8.47
+            tilt: 0
+          pin3:
+            pinDistance: 234.53
+            pinHeight: -8.55
+            tilt: 0
