@@ -2,12 +2,38 @@ import 'package:flutter/material.dart';
 import 'package:pangya_calculator/blocs/calculatorBloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pangya_calculator/appConfig.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import "package:yaml/yaml.dart";
 
-class CalculatorWidget extends StatelessWidget {
+class CalculatorWidget extends StatefulWidget{
+  State<CalculatorWidget> createState() => _CalculatorWidgetState();
+}
+
+class _CalculatorWidgetState extends State<CalculatorWidget> {
 
   TextEditingController  _pinDistanceController = TextEditingController();
   TextEditingController  _elevationController = TextEditingController();
 
+  Future<List<String>> loadPinLocation() async {
+    final data = await rootBundle.loadString('assets/pinLocation.yaml');
+    final mapData = loadYaml(data);
+
+    List<String> pinDescription = [];
+
+    mapData["course"].forEach((key, course) {
+      String _courseShortForm = course["short"];
+      course["holes"].forEach((k, holes) {
+        String _hole = holes["name"];
+        holes["pins"].forEach((k2, v2) {
+          pinDescription.add('$_courseShortForm $_hole $k2');
+        });
+      });
+    });
+    print(pinDescription);
+    return pinDescription;
+  }
+
+  @override
   void dispose(){
     _pinDistanceController.dispose();
     _elevationController.dispose();
@@ -41,7 +67,7 @@ class CalculatorWidget extends StatelessWidget {
                                     maxPower = snapshot.data;
                                   }
                                   return Text(
-                                    'Caliper power (Max Power: ${maxPower} | Terrain: ${appData
+                                    'Caliper power (Max Power: $maxPower | Terrain: ${appData
                                         .terrain} | Spin: ${appData.spin})',
                                     textAlign: TextAlign.left,);
                                 }
@@ -49,10 +75,7 @@ class CalculatorWidget extends StatelessWidget {
                           )
                         ),
                         Text('${state.result.caliperPower}',
-                          style: Theme
-                              .of(context)
-                              .textTheme
-                              .headline4,),
+                          style: Theme.of(context).textTheme.headline4,),
                         Row(crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Expanded(
@@ -169,7 +192,7 @@ class CalculatorWidget extends StatelessWidget {
                     child: calculationField(context),
                   ),
                   Expanded(
-                    child: Text("Holes"),
+                    child: pinInformationField(context),
                   ),
                 ]
             ),
@@ -245,6 +268,41 @@ class CalculatorWidget extends StatelessWidget {
           }).toList(),
         );
       },
+    );
+  }
+
+  Widget pinInformationField(BuildContext context) {
+    return FutureBuilder<List<String>>(
+        future: loadPinLocation(),
+        builder: (context, snapshot) {
+          List<String> pinDescription = snapshot.data;
+          print(pinDescription);
+          return StreamBuilder(
+            stream: context.bloc<CalculatorBloc>().pinInformation,
+            builder: (context, snapshot2) {
+              String pinInformationValue;
+              if (snapshot2.data == null){
+                pinInformationValue = "BL H2 224.42y";
+              } else {
+                pinInformationValue = snapshot2.data;
+              }
+              return DropdownButton<String>(
+                onChanged: (String value) {
+                  context.bloc<CalculatorBloc>().add(CalculatorEvent(EventType.updatePinDescription, value));
+                },
+                value: pinInformationValue,
+                icon: Icon(Icons.arrow_downward),
+                iconSize: 24,
+                items: pinDescription.map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              );
+            },
+          );
+        }
     );
   }
 
@@ -330,7 +388,7 @@ class CalculatorWidget extends StatelessWidget {
           isSelected = [true, false];
         } else {
           isSelected = snapshot.data;
-        };
+        }
         return Row(
           children: [
             Expanded(

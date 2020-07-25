@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pangya_calculator/Screens/settingsPage.dart';
 import 'package:pangya_calculator/blocs/calculatorBloc.dart';
-import 'package:pangya_calculator/drawer.dart';
 import 'package:pangya_calculator/Screens/calculatorWidget.dart';
-import 'package:pangya_calculator/blocs/calculatorProvider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {

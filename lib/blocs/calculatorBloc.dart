@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:pangya_calculator/appConfig.dart';
 import 'dart:async';
@@ -8,6 +7,7 @@ import 'package:pangya_calculator/models/calculatorModels.dart';
 import 'package:pangya_calculator/Screens/calculator1WDunk.dart';
 import 'package:pangya_calculator/Screens/calculator1WToma.dart';
 import 'package:pangya_calculator/Screens/calculator6i.dart';
+import 'package:pangya_calculator/Screens/parseYAML.dart';
 
 enum EventType {
   updatePinDistance,
@@ -18,8 +18,8 @@ enum EventType {
   updateBreaks,
   updateGreenSlope,
   updateTerrain,
-  recalculate,
   updateCalculator,
+  updatePinDescription,
 }
 
 class CalculatorState {
@@ -76,6 +76,7 @@ class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
   var _results = Results();
   var _inputs = InputData();
   List<bool> _isSelected = [true, false];
+  List<double> pinOutput;
 
   CalculatorBloc() : super(CalculatorState.initial());
 
@@ -93,6 +94,9 @@ class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
 
   var _calculationSelectedSubject = new BehaviorSubject<String>();
   Stream<String> get calculationSelected => _calculationSelectedSubject.stream;
+
+  var _pinInformationSubject = new BehaviorSubject<String>();
+  Stream<String> get pinInformation => _pinInformationSubject.stream;
 
   var _maxPowerSubject = new BehaviorSubject<String>();
   Stream<String> get maxPower => _maxPowerSubject.stream;
@@ -180,6 +184,16 @@ class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
         appData.terrain = event.value;
         yield CalculatorSuccess(_results);
         break;
+      case EventType.updatePinDescription:
+        pinOutput = await ParseYAML().obtainPinInformation(event.value);
+        _pinInformationSubject.value = event.value;
+        _inputs.pinDistance = pinOutput[0];
+        _pinDistanceSubject.value = pinOutput[0].toString();
+        _inputs.elevation = pinOutput[1];
+        _elevationSubject.value = pinOutput[1].toString();
+        _results = calculate(_inputs, _results);
+        yield CalculatorSuccess(_results);
+        break;
     }
   }
 
@@ -190,5 +204,6 @@ class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
     _isSelectedSubject.close();
     _calculationSelectedSubject.close();
     _maxPowerSubject.close();
+    _pinInformationSubject.close();
   }
 }
