@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pangya_calculator/appConfig.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import "package:yaml/yaml.dart";
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CalculatorWidget extends StatefulWidget{
   State<CalculatorWidget> createState() => _CalculatorWidgetState();
@@ -29,12 +30,12 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
         });
       });
     });
-    print(pinDescription);
     return pinDescription;
   }
 
   @override
   void dispose(){
+    super.dispose();
     _pinDistanceController.dispose();
     _elevationController.dispose();
   }
@@ -252,20 +253,28 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
         } else {
           calculatorValue = snapshot.data;
         }
-        return DropdownButton<String>(
-          onChanged: (String value) {
-            context.bloc<CalculatorBloc>().add(CalculatorEvent(EventType.updateCalculator, value));
-          },
-          value: calculatorValue,
-          icon: Icon(Icons.arrow_downward),
-          iconSize: 24,
-          items: <String>['1W Dunk', '1W Tomahawk', '6i Beam']
-              .map<DropdownMenuItem<String>>((String value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Text(value),
-            );
-          }).toList(),
+        return Row(
+            children: <Widget>[
+              FaIcon(FontAwesomeIcons.meteor, size: 15, color: Colors.grey,),
+              Padding(
+                  padding: EdgeInsets.only(left: 15),
+                  child: DropdownButton<String>(
+                    onChanged: (String value) {
+                      context.bloc<CalculatorBloc>().add(CalculatorEvent(EventType.updateCalculator, value));
+                    },
+                    value: calculatorValue,
+                    icon: Icon(Icons.arrow_drop_down),
+                    iconSize: 24,
+                    items: <String>['1W Dunk', '1W Tomahawk', '6i Beam']
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  )
+              )
+            ]
         );
       },
     );
@@ -275,33 +284,48 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
     return FutureBuilder<List<String>>(
         future: loadPinLocation(),
         builder: (context, snapshot) {
-          List<String> pinDescription = snapshot.data;
-          print(pinDescription);
-          return StreamBuilder(
-            stream: context.bloc<CalculatorBloc>().pinInformation,
-            builder: (context, snapshot2) {
-              String pinInformationValue;
-              if (snapshot2.data == null){
-                pinInformationValue = "BL H2 224.42y";
-              } else {
-                pinInformationValue = snapshot2.data;
-              }
-              return DropdownButton<String>(
-                onChanged: (String value) {
-                  context.bloc<CalculatorBloc>().add(CalculatorEvent(EventType.updatePinDescription, value));
-                },
-                value: pinInformationValue,
-                icon: Icon(Icons.arrow_downward),
-                iconSize: 24,
-                items: pinDescription.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              );
-            },
-          );
+          if (snapshot.hasData) {
+            List<String> pinDescription = snapshot.data;
+            return StreamBuilder(
+              stream: context
+                  .bloc<CalculatorBloc>()
+                  .pinInformation,
+              builder: (context, snapshot2) {
+                String pinInformationValue;
+                if (snapshot2.data == null) {
+                  pinInformationValue = "BL H2 224.42y";
+                } else {
+                  pinInformationValue = snapshot2.data;
+                }
+                return Row(
+                  children: <Widget>[
+                    FaIcon(FontAwesomeIcons.searchLocation, size: 15, color: Colors.grey,),
+                    Padding(
+                        padding: EdgeInsets.only(left: 15),
+                        child: DropdownButton<String>(
+                          onChanged: (String value) {
+                            context.bloc<CalculatorBloc>().add(
+                                CalculatorEvent(EventType.updatePinDescription, value));
+                          },
+                          value: pinInformationValue,
+                          icon: Icon(Icons.arrow_drop_down),
+                          iconSize: 24,
+                          items: pinDescription.map<DropdownMenuItem<String>>((
+                              String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        )
+                    )
+                  ],
+                );
+              },
+            );
+          } else {
+            return Container(width: 0, height: 0,);
+          }
         }
     );
   }
@@ -311,15 +335,19 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
       stream: context.bloc<CalculatorBloc>().pinDistance,
       builder: (context, snapshot) {
         _pinDistanceController.value = _pinDistanceController.value.copyWith(text: snapshot.data);
-        return TextFormField(
-          controller: _pinDistanceController,
-          onChanged: (String value) {
-            context.bloc<CalculatorBloc>().add(CalculatorEvent(EventType.updatePinDistance, value));
-          },
-          keyboardType: TextInputType.number,
-          decoration: InputDecoration(
-            labelText: 'Pin Distance',
-          ),
+        return Padding(
+            padding: EdgeInsets.only(right: 10),
+            child: TextFormField(
+              controller: _pinDistanceController,
+              onChanged: (String value) {
+                context.bloc<CalculatorBloc>().add(CalculatorEvent(EventType.updatePinDistance, value));
+              },
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                labelText: 'Pin Distance',
+                icon: FaIcon(FontAwesomeIcons.golfBall, size: 15),
+              ),
+            )
         );
       },
     );
@@ -330,15 +358,19 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
       stream: context.bloc<CalculatorBloc>().elevation,
       builder: (context, snapshot) {
         _elevationController.value = _elevationController.value.copyWith(text: snapshot.data);
-        return TextFormField(
-          controller: _elevationController,
-          onChanged: (String value) {
-            context.bloc<CalculatorBloc>().add(CalculatorEvent(EventType.updateElevation, value));
-          },
-          keyboardType: TextInputType.number,
-          decoration: InputDecoration(
-            labelText: 'Elevation',
-          ),
+        return Padding(
+            padding: EdgeInsets.only(right: 7),
+            child: TextFormField(
+              controller: _elevationController,
+              onChanged: (String value) {
+                context.bloc<CalculatorBloc>().add(CalculatorEvent(EventType.updateElevation, value));
+              },
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                labelText: 'Elevation',
+                icon: FaIcon(FontAwesomeIcons.mountain, size: 13,),
+              ),
+            )
         );
       },
     );
@@ -347,7 +379,9 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
   Widget windSpeedField(BuildContext context) {
     return StreamBuilder(
       builder: (context, snapshot) {
-        return TextFormField(
+        return Padding(
+            padding: EdgeInsets.only(right: 10, bottom: 3),
+        child: TextFormField(
           onChanged: (String value) {
             context.bloc<CalculatorBloc>().add(CalculatorEvent(EventType.updateWindSpeed, value));
           },
@@ -355,7 +389,9 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
             labelText: 'Wind Speed',
+            icon: FaIcon(FontAwesomeIcons.wind, size: 15,),
           ),
+        )
         );
       },
     );
@@ -365,15 +401,19 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
     //TODO to add sine/cosine indication to labelText
     return StreamBuilder(
       builder: (context, snapshot) {
-        return TextFormField(
-          onChanged: (String value) {
-            context.bloc<CalculatorBloc>().add(CalculatorEvent(EventType.updateWindAngle, value));
-          },
-          initialValue: '45',
-          keyboardType: TextInputType.number,
-          decoration: InputDecoration(
-            labelText: 'Wind Angle',
-          ),
+        return Padding(
+            padding: EdgeInsets.only(right: 7, bottom: 3),
+            child: TextFormField(
+            onChanged: (String value) {
+              context.bloc<CalculatorBloc>().add(CalculatorEvent(EventType.updateWindAngle, value));
+            },
+            initialValue: '45',
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(
+              labelText: 'Wind Angle',
+              icon: FaIcon(FontAwesomeIcons.locationArrow, size: 15,),
+            ),
+          )
         );
       },
     );
@@ -438,7 +478,9 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
   Widget breaksField(BuildContext context) {
     return StreamBuilder(
       builder: (context, snapshot) {
-        return TextFormField(
+        return Padding(
+            padding: EdgeInsets.only(right: 10),
+        child: TextFormField(
           onChanged: (String value) {
             context.bloc<CalculatorBloc>().add(CalculatorEvent(EventType.updateBreaks, value));
           },
@@ -446,7 +488,9 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
             labelText: 'Breaks',
+            icon: Icon(Icons.timeline, size: 20,),
           ),
+        )
         );
       },
     );
@@ -455,15 +499,19 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
   Widget greenSlopeField(BuildContext context) {
     return StreamBuilder(
       builder: (context, snapshot) {
-        return TextFormField(
-          onChanged: (String value) {
-            context.bloc<CalculatorBloc>().add(CalculatorEvent(EventType.updateGreenSlope, value));
-          },
-          initialValue: '0',
-          keyboardType: TextInputType.number,
-          decoration: InputDecoration(
-            labelText: 'Green Slope',
-          ),
+        return Padding(
+            padding: EdgeInsets.only(right: 7),
+            child: TextFormField(
+              onChanged: (String value) {
+                context.bloc<CalculatorBloc>().add(CalculatorEvent(EventType.updateGreenSlope, value));
+              },
+              initialValue: '0',
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                labelText: 'Green Slope',
+                icon: Icon(Icons.golf_course, size: 20,),
+              ),
+            )
         );
       },
     );
@@ -472,7 +520,9 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
   Widget terrainField(BuildContext context) {
     return StreamBuilder(
       builder: (context, snapshot) {
-        return TextFormField(
+        return Padding(
+            padding: EdgeInsets.only(right: 7),
+        child: TextFormField(
           onChanged: (String value) {
             context.bloc<CalculatorBloc>().add(CalculatorEvent(EventType.updateTerrain, value));
           },
@@ -480,7 +530,9 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
             labelText: 'Terrain',
+            icon: Icon(Icons.terrain, size: 20,),
           ),
+        )
         );
       },
     );

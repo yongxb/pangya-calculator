@@ -23,7 +23,6 @@ class ParseYAML {
         });
       });
     });
-    print(pinDescription);
     return pinDescription;
   }
 

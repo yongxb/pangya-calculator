@@ -14,13 +14,11 @@ class ParseYAML {
     Map doc = await loadYamlAsync();
 
     List<String> pinSplit = pin.split(' ');
-    print(pinSplit);
     results.add(
         doc["course"][pinSplit[0]]["holes"][pinSplit[1]]["pins"][pinSplit[2]]["pinDistance"]);
     results.add(
         doc["course"][pinSplit[0]]["holes"][pinSplit[1]]["pins"][pinSplit[2]]["pinHeight"]);
 
-    print(results);
     return results;
   }
 }

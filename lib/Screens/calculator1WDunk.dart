@@ -184,7 +184,7 @@ class Calculator1WDunk {
     }
 
     //spin correction
-    double spinCorrection = 0.4 * (11 - appData.spin) * (1 + (260 - appData.maxPower1WDunk) / appData.maxPower1WDunk) /
+    double spinCorrection = 0.4 * (11 - appData.spin) * (1 + (maxDist - appData.maxPower1WDunk) / appData.maxPower1WDunk) /
         appData.maxPower1WDunk * trueDist * exp((0.4 + 0.0008 * appData.maxPower1WDunk) / appData.maxPower1WDunk * trueDist);
 
     caliperPower = powerFn(force + spinCorrection);

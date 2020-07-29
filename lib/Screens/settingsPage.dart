@@ -13,13 +13,21 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   void initState() {
-    loadMaxPower1W();
-    loadSpin();
-    loadMaxPower1WPowershot();
+    Future<double> initMaxPower1W = loadMaxPower1W();
+    Future<double> initSpin = loadSpin();
+    Future<double> initMaxPower1WPowershot = loadMaxPower1WPowershot();
 
-    _maxPower1WDunkController.text =  appData.maxPower1WDunk.toString();
-    _maxPower1WTomahawkController.text = appData.maxPower1WTomahawk.toString();
-    _spinController.text = appData.spin.toString();
+    initMaxPower1W.then((value) {
+      _maxPower1WDunkController.text =  appData.maxPower1WDunk.toString();
+    });
+
+    initMaxPower1WPowershot.then((value){
+      _maxPower1WTomahawkController.text = value.toString();
+    });
+
+    initSpin.then((value) {
+      _spinController.text = appData.spin.toString();
+    });
     return super.initState();
   }
 
@@ -32,45 +40,38 @@ class _SettingsPageState extends State<SettingsPage> {
     super.dispose();
   }
 
-  loadMaxPower1W() async {
+  Future<double> loadMaxPower1W() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      appData.maxPower1WDunk = (prefs.getDouble('maxPower1WDunk') ?? appData.maxPower1WDunk);
-    });
+    appData.maxPower1WDunk = (prefs.getDouble('maxPower1WDunk') ?? appData.maxPower1WDunk);
+    return appData.maxPower1WDunk;
   }
 
-  loadSpin() async {
+  Future<double> loadSpin() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      appData.spin = (prefs.getDouble('spin') ?? appData.spin);
-    });
+    appData.spin = (prefs.getDouble('spin') ?? appData.spin);
+    return appData.spin;
   }
 
-  loadMaxPower1WPowershot() async {
+  Future<double> loadMaxPower1WPowershot() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      appData.maxPower1WTomahawk = (prefs.getDouble('MaxPower1WPowershot') ?? appData.maxPower1WTomahawk);
-    });
+    appData.maxPower1WTomahawk = (prefs.getDouble('MaxPower1WPowershot') ?? appData.maxPower1WTomahawk);
+    return appData.maxPower1WTomahawk;
   }
+
   updateMaxPower1W() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      prefs.setDouble('maxPower1WDunk', appData.maxPower1WDunk);
-    });
+    print("okay");
+    prefs.setDouble('maxPower1WDunk', appData.maxPower1WDunk);
   }
 
   updateMaxPower1WPowershot() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      prefs.setDouble('MaxPower1WPowershot', appData.maxPower1WTomahawk);
-    });
+    prefs.setDouble('MaxPower1WPowershot', appData.maxPower1WTomahawk);
   }
 
   updateSpin() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      prefs.setDouble('spin', appData.spin);
-    });
+    prefs.setDouble('spin', appData.spin);
   }
 
   @override
