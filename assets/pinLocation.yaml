@@ -577,9 +577,9 @@ course:
             pinDistance: 237.14
             pinHeight: 15.6
             tilt: 0
-  WestW:
+  WstW:
     name: "West Wiz"
-    short: "WW"
+    short: "WstW"
     holes:
       H2:
         name: "H2"

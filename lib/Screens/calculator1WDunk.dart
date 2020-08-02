@@ -62,19 +62,19 @@ class Calculator1WDunk {
   }
 
   double powerCoefficient1(double x) {
-    return 3.05374056e-01 * x * exp(-2.69121103e-03 * x) + -2.80957825e+01;
+    return 4.06622741e-01 * x * exp(-2.73029465e-03 * x) + -3.95358417e+01;
   }
 
   double powerCoefficient2(double x) {
-    return -4.52204558e-05 * x * exp(-2.49174122e-03 * x) + 7.40198724e-03;
+    return -6.80523588e-05 * x * exp(-2.70231806e-03 * x) + 1.00614175e-02;
   }
 
   double powerCoefficient3(double x) {
-    return 8.61935227e-01 * x * exp(-2.71904919e-03 * x) + -7.28564602e+01;
+    return 6.71896651e-01 * x * exp(-2.74528793e-03 * x) + -6.08506234e+01;
   }
 
   double powerCoefficient4(double x) {
-    return -1.18886597e-04 * x * exp(-2.48326657e-03 * x) + 1.94548069e-02;
+    return -1.57133263e-04 * x * exp(-2.66624770e-03 * x) + 2.36082405e-02;
   }
 
   Function powerCalc(double x) {
@@ -84,9 +84,9 @@ class Calculator1WDunk {
     double d = powerCoefficient4(x);
 
     double func(x) {
-      return x * a * log(b * x + 1.77068288e-01) +
-          x * c * exp(-d * x - 5.97206829e-01) +
-          2.77634837e-02;
+      return x * a * log(b * x + 1.93834117e-01) +
+          x * c * exp(-d * x - 1.02281089e-01) +
+          -7.80644286e-01 * x;
     }
 
     return func;
@@ -102,14 +102,19 @@ class Calculator1WDunk {
 
   double elevationCalc(double altitude, double trueDist) {
     double diffDistance = maxDist - trueDist;
+    double power = appData.maxPower1WDunk;
 
-    double a = 3.74221103e-01 * altitude;
+    double a =
+        3.42207149e-03 * power * altitude * exp(1.18387313e-02 * altitude) +
+            4.82710232e-02;
     double b =
-        7.55453429e-09 * exp(-3.60702891e-01 * altitude) + 1.28973673e-02;
+        3.76932673e-04 * exp(-2.81528141e-02 * altitude) + 1.26470059e-02;
     double c =
-        -4.77599897e-03 * exp(4.70378180e-03 * altitude) + 5.16694815e-03;
+        -2.29632043e-03 * exp(1.93186949e-02 * altitude) + 3.24928541e-03;
+    double d = 9.07898522e-03 * power * exp(3.69925230e-03 * altitude) +
+        -2.26371532e+00;
 
-    return a / (exp(-b * diffDistance + -6.25404185e-01) + c * diffDistance);
+    return a / (exp(-b * diffDistance + d) + c * diffDistance);
   }
 
   Results calculate1WDunk(InputData inputs, Results results) {
@@ -132,10 +137,13 @@ class Calculator1WDunk {
     if (inputs.elevation >= 0.0) {
       inf = 3.3;
     } else {
-      inf = inputs.pinDistance / (80 * pow(1.006, (maxDist - inputs.pinDistance)));
+      inf = inputs.pinDistance /
+          (80 * pow(1.006, (maxDist - inputs.pinDistance)));
     }
-    print(inputs.pinDistance / (80 * pow(1.006, (maxDist - inputs.pinDistance))));
+//    print(inputs.pinDistance / (80 * pow(1.006, (maxDist - inputs.pinDistance))));
     double realAltitude = elevationCalc(inputs.elevation, trueDist);
+//    realAltitude = 27.74;
+    print(realAltitude);
 
     double infH = 1 - (realAltitude / inf) / 100;
 
@@ -144,15 +152,24 @@ class Calculator1WDunk {
         hwi * inputs.windSpeed * cos(windAngle * pi / 180) * infH;
 
     if (inputs.windDirection == true) {
-      elevationInfH = hwi * inputs.windSpeed * sin(windAngle * pi / 180) * (1 - realAltitude * 0.016);
+      elevationInfH = hwi *
+          inputs.windSpeed *
+          sin(windAngle * pi / 180) *
+          (1 - realAltitude * 0.016);
       windMovement = windMovement * (1 - elevationInfH * 2.75 / 400);
 //        print(elevationInfH);
     } else {
-      elevationInfH = hwi * inputs.windSpeed * sin(windAngle * pi / 180) * 1.3 * (1 - realAltitude * 0.013);
+      elevationInfH = hwi *
+          inputs.windSpeed *
+          sin(windAngle * pi / 180) *
+          1.3 * (1 - realAltitude * 0.013);
       windMovement = windMovement / (1 - elevationInfH * 4 / 625);
     }
 
-    finalMovement = (windMovement + inputs.breaks * 1.2 / 15 * hwi / 4 + inputs.greenSlope) / 0.218;
+    finalMovement = (windMovement +
+            inputs.breaks * 1.2 / 15 * hwi / 4 +
+            inputs.greenSlope) /
+        0.218;
     results.finalMovement = num.parse(finalMovement.toStringAsFixed(2));
 
     finalMovementCaliperLeft =
@@ -184,8 +201,14 @@ class Calculator1WDunk {
     }
 
     //spin correction
-    double spinCorrection = 0.4 * (11 - appData.spin) * (1 + (maxDist - appData.maxPower1WDunk) / appData.maxPower1WDunk) /
-        appData.maxPower1WDunk * trueDist * exp((0.4 + 0.0008 * appData.maxPower1WDunk) / appData.maxPower1WDunk * trueDist);
+    double spinCorrection = 0.4 *
+        (11 - appData.spin) *
+        (1 + (maxDist - appData.maxPower1WDunk) / appData.maxPower1WDunk) /
+        appData.maxPower1WDunk *
+        trueDist *
+        exp((0.4 + 0.0008 * appData.maxPower1WDunk) /
+            appData.maxPower1WDunk *
+            trueDist);
 
     caliperPower = powerFn(force + spinCorrection);
     results.caliperPower = num.parse(caliperPower.toStringAsFixed(2));

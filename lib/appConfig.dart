@@ -1,8 +1,8 @@
 class AppData {
   static final AppData _appData = new AppData._internal();
 
-  double maxPower1WDunk = 291;
-  double maxPower1WTomahawk = 301;
+  double maxPower1WDunk = 312;
+  double maxPower1WTomahawk = 330;
   double maxPower6i = 141;
 
   bool useCosine = true;
