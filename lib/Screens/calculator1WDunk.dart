@@ -42,20 +42,13 @@ class Calculator1WDunk {
     maxDist = _maxDistTemp;
   }
 
-  double hwiCoefficient1(double x) {
-    return 8.93157081e-04 * x * exp(-2.51729040e-02 * x) + 2.26400028e-04;
-  }
-
-  double hwiCoefficient2(double x) {
-    return 4.06342095e-01 * x * exp(-2.96413195e-03 * x) - 4.82573224e+01;
-  }
-
   Function hwiCalculation(double x) {
-    double a = hwiCoefficient1(x);
-    double b = hwiCoefficient2(x);
+    double a = 1.64811221e-05 * x * exp(-4.01118186e-03 * x) + -1.16932255e-03;
+    double b = -1.61781640 * exp(-5.32397936e-01 * x) + 2.39130953;
+    double c = 3.70091259e-02 * x * exp(-3.33911099e-02 * x) + 8.37628050e-03;
 
     double func(x) {
-      return a * x * (exp(8.30546152e-03 * x) + b);
+      return a * x * (exp(c * x) + b);
     }
 
     return func;
