@@ -55,6 +55,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Future<double> loadMaxPower1WPowershot() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     appData.maxPower1WTomahawk = (prefs.getDouble('MaxPower1WPowershot') ?? appData.maxPower1WTomahawk);
+    appData.maxPower2WTomahawk = appData.maxPower1WTomahawk - 20;
     return appData.maxPower1WTomahawk;
   }
 
@@ -128,6 +129,7 @@ class _SettingsPageState extends State<SettingsPage> {
               controller: _maxPower1WTomahawkController,
               onChanged: (String value) {
                 appData.maxPower1WTomahawk = double.parse(value);
+                appData.maxPower2WTomahawk = appData.maxPower1WTomahawk-20;
                 updateMaxPower1WPowershot();
               },
             ),

@@ -6,6 +6,7 @@ import 'package:bloc/bloc.dart';
 import 'package:pangya_calculator/models/calculatorModels.dart';
 import 'package:pangya_calculator/Screens/calculator1WDunk.dart';
 import 'package:pangya_calculator/Screens/calculator1WToma.dart';
+import 'package:pangya_calculator/Screens/calculator2WToma.dart';
 import 'package:pangya_calculator/Screens/calculator6i.dart';
 import 'package:pangya_calculator/Screens/parseYAML.dart';
 
@@ -117,6 +118,11 @@ class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
           calculate = Calculator1WTomahawk().calculate1WToma;
           _results = calculate(_inputs, _results);
           _maxPowerSubject.value = appData.maxPower1WTomahawk.toString();
+          yield CalculatorSuccess(_results);
+        } else if (event.value == "2W Tomahawk"){
+          calculate = Calculator2WTomahawk().calculate2WToma;
+          _results = calculate(_inputs, _results);
+          _maxPowerSubject.value = appData.maxPower2WTomahawk.toString();
           yield CalculatorSuccess(_results);
         } else if (event.value == "6i Beam"){
           calculate = Calculator6i().calculateDunk6i;

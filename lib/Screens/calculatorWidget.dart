@@ -265,7 +265,7 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
                     value: calculatorValue,
                     icon: Icon(Icons.arrow_drop_down),
                     iconSize: 24,
-                    items: <String>['1W Dunk', '1W Tomahawk', '6i Beam']
+                    items: <String>['1W Dunk', '1W Tomahawk', '2W Tomahawk', '6i Beam']
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
