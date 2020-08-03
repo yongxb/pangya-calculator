@@ -130,6 +130,7 @@ class _SettingsPageState extends State<SettingsPage> {
               onChanged: (String value) {
                 appData.maxPower1WTomahawk = double.parse(value);
                 appData.maxPower2WTomahawk = appData.maxPower1WTomahawk-20;
+                appData.maxPower3WTomahawk = appData.maxPower1WTomahawk-40;
                 updateMaxPower1WPowershot();
               },
             ),

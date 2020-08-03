@@ -4,6 +4,7 @@ class AppData {
   double maxPower1WDunk = 312;
   double maxPower1WTomahawk = 330;
   double maxPower2WTomahawk = 310;
+  double maxPower3WTomahawk = 290;
   double maxPower6i = 141;
 
   bool useCosine = true;
