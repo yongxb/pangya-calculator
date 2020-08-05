@@ -94,12 +94,12 @@ class Calculator2WTomahawk {
       variation = 1.011;
     }
 
+    print(deltaH);
     deltaH = deltaH * pow(variation, (maxDist - trueDist));
-//    print(deltaH);
 
     double realAltitude = inputs.elevation * deltaH;
     double infH = 1 - (realAltitude / inf) / 100;
-//    print(infH);
+    print(infH);
     double hwi = hwiFn(trueDist);
     print(hwi);
     double windMovement =
