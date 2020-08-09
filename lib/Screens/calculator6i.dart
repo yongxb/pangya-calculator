@@ -13,32 +13,18 @@ class Calculator6i {
 
   double maxDist;
 
-  var terrainDunk = {"100":1, "98":1/0.98, "97":1/0.97, "95":1/0.95, "92":1/0.92, "90":1/0.9, "87":1/0.87, "85":1/0.85, "83":1/0.83, "82":1/0.82, "80":1/0.8, "75":1/0.75};
-//  var terrainDunk = {"100":1, "98":1.02, "97":1.03, "95":1.05, "92":1.08, "90":1.1, "87":1.13, "85":1.16, "82":1.18, "80":1.2, "75":1.25};
+//  var terrainDunk = {"100":1, "98":1/0.98, "97":1/0.97, "95":1/0.95, "92":1/0.92, "90":1/0.9, "87":1/0.87, "85":1/0.85, "83":1/0.83, "82":1/0.82, "80":1/0.8, "75":1/0.75};
+  var terrainDunk = {"100":1, "98":1.02, "97":1.03, "95":1.05, "92":1.08, "90":1.1, "87":1.13, "85":1.17, "82":1.18, "80":1.2, "75":1.25};
 
   double powerFn(double x){
-    return x*0.32849496*log(1.05924966*x+1e-6) + x*0.71896443*exp(-0.07405188*x);
-  }
-
-  void maxDistCalc(double maxPower) {
-    double _maxDistTemp = maxPower - 18;
-    double _powerCalcMax = powerFn(_maxDistTemp);
-
-    while ((maxPower - _powerCalcMax).abs() > 0.01){
-      _maxDistTemp = _maxDistTemp + (maxPower - _powerCalcMax);
-      _powerCalcMax = powerFn(_maxDistTemp);
-    }
-
-    maxDist = _maxDistTemp;
+    return x*6.46943169e+01*log(-6.36034455e-04*x+4.56435640e-01) + x*5.16857848e+01*exp(1.80631663e-03*x);
   }
 
   Results calculateDunk6i(InputData inputs, Results results) {
-    maxDistCalc(appData.maxPower6i);
-    double hwiCoefficient = 0.477;
-
     double trueDist = inputs.pinDistance * terrainDunk[inputs.terrain];
 
     double windAngle = inputs.windAngle;
+    double realAltitude;
 
     if (appData.useCosine == false) {
       windAngle = 90 - windAngle;
@@ -49,31 +35,20 @@ class Calculator6i {
     double variation;
     double elevationInfH;
 
-    if(inputs.elevation >= 0.0){
-      deltaH = 0.04656938 * exp(0.02410579 * inputs.elevation) + 0.65046932;
-      inf = 3.8;
-      variation = 1.002;
+    if (inputs.elevation >= 0){
+      realAltitude = 1.5125 * exp(0.54654371 * inputs.elevation) + -1.5125;
     } else {
-      deltaH = -0.01628496 * exp(-0.04846523 * inputs.elevation) + 0.70932074;
-      inf = 3.2;
-      variation = 1.0015;
+      realAltitude = inputs.elevation;
     }
 
-    deltaH = deltaH * pow(variation, (maxDist - trueDist));
+    double hwi = 4.54804977e-01 * trueDist * (exp(8.84821388e-06 * trueDist) + -9.86679938e-01);
 
-    double realAltitude = inputs.elevation * deltaH;
-    double infH = 1 - (realAltitude / inf)/100;
-
-    print(realAltitude);
-    double hwi = hwiCoefficient * (exp(0.01 * trueDist) - 1);
-    double windMovement = hwi * inputs.windSpeed * cos(windAngle*pi/180) * infH;
+    double windMovement = hwi * inputs.windSpeed * cos(windAngle*pi/180);
 
     if(inputs.windDirection == true){
-      elevationInfH = hwi * inputs.windSpeed * sin(windAngle*pi/180) * (1-realAltitude*0.016);
-      windMovement = windMovement * (1 - elevationInfH*2.75/400);
+      elevationInfH = hwi * inputs.windSpeed * sin(windAngle*pi/180) * (1 - realAltitude * 0.016);
     } else {
-      elevationInfH = hwi * inputs.windSpeed * sin(windAngle*pi/180) * 1.3 * (1-realAltitude*0.013);
-      windMovement = windMovement / (1 - elevationInfH*4/625);
+      elevationInfH = hwi * inputs.windSpeed * sin(windAngle*pi/180) * (1 - realAltitude * 0.016);
     }
 
     finalMovement = (windMovement + inputs.breaks*hwi/4) / 0.218;

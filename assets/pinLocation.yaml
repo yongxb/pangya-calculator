@@ -310,7 +310,7 @@ course:
             pinHeight: -20.70
             tilt: 0.15
           "353.45y":
-            inDistance: 353.45
+            pinDistance: 353.45
             pinHeight: -20.40
             tilt: 0.11
       H5:
@@ -921,12 +921,12 @@ course:
         par: 3
         tilt: "Flat"
         pins:
-          "226.56y":
-            pinDistance: 226.56
+          "226.57y":
+            pinDistance: 226.57
             pinHeight: -10.8
             tilt: 0
-          "235.81y":
-            pinDistance: 235.81
+          "235.75y":
+            pinDistance: 235.75
             pinHeight: -11.00
             tilt: 0
           "244.35y":
@@ -938,16 +938,16 @@ course:
         par: 3
         tilt: "Flat"
         pins:
-          "240.7y":
-            pinDistance: 240.7
+          "240.68y":
+            pinDistance: 240.68
             pinHeight: -13.7
             tilt: 0
-          "241.28y":
-            pinDistance: 241.28
+          "241.31y":
+            pinDistance: 241.31
             pinHeight: -13.7
             tilt: 0
-          "255.61y":
-            pinDistance: 255.61
+          "255.63y":
+            pinDistance: 255.63
             pinHeight: -13.7
             tilt: 0
       H10:
@@ -972,16 +972,16 @@ course:
         par: 3
         tilt: "Flat"
         pins:
-          "175.7y":
-            pinDistance: 175.7
+          "175.67y":
+            pinDistance: 175.67
             pinHeight: -15.4
             tilt: 0
-          "185.4y":
-            pinDistance: 185.4
+          "185.34y":
+            pinDistance: 185.34
             pinHeight: -15.4
             tilt: 0
-          "190.16y":
-            pinDistance: 190.16
+          "190.14y":
+            pinDistance: 190.14
             pinHeight: -15.4
             tilt: 0
   AM:

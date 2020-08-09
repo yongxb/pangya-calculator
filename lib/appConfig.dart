@@ -5,7 +5,7 @@ class AppData {
   double maxPower1WTomahawk = 330;
   double maxPower2WTomahawk = 310;
   double maxPower3WTomahawk = 290;
-  double maxPower6i = 141;
+  double maxPower6i = 152;
 
   bool useCosine = true;
   String angleFunction = 'Cosine';
