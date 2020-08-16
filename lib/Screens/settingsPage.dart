@@ -56,6 +56,7 @@ class _SettingsPageState extends State<SettingsPage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     appData.maxPower1WTomahawk = (prefs.getDouble('MaxPower1WPowershot') ?? appData.maxPower1WTomahawk);
     appData.maxPower2WTomahawk = appData.maxPower1WTomahawk - 20;
+    appData.maxPower3WTomahawk = appData.maxPower1WTomahawk - 40;
     return appData.maxPower1WTomahawk;
   }
 

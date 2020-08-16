@@ -133,7 +133,7 @@ class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
         } else if (event.value == "6i Beam"){
           calculate = Calculator6i().calculateDunk6i;
           _results = calculate(_inputs, _results);
-          _maxPowerSubject.value = appData.maxPower1WTomahawk.toString();
+          _maxPowerSubject.value = appData.maxPower6i.toString();
           yield CalculatorSuccess(_results);
         }
         break;

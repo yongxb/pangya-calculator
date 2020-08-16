@@ -20,3 +20,4 @@ class AppData {
 }
 
 final appData = AppData();
+
