@@ -55,19 +55,19 @@ class Calculator1WDunk {
   }
 
   double powerCoefficient1(double x) {
-    return 4.06622741e-01 * x * exp(-2.73029465e-03 * x) + -3.95358417e+01;
+    return 9.63104715e-01 * x * exp(-3.15432932e-03 * x) + -9.56034864e+01;
   }
 
   double powerCoefficient2(double x) {
-    return -6.80523588e-05 * x * exp(-2.70231806e-03 * x) + 1.00614175e-02;
+    return -3.95003748e-05 * x * exp(-2.42794713e-03 * x) + 6.62168896e-03;
   }
 
   double powerCoefficient3(double x) {
-    return 6.71896651e-01 * x * exp(-2.74528793e-03 * x) + -6.08506234e+01;
+    return 6.27942619e-01 * x * exp(-3.17735298e-03 * x) + -6.09492974e+01;
   }
 
   double powerCoefficient4(double x) {
-    return -1.57133263e-04 * x * exp(-2.66624770e-03 * x) + 2.36082405e-02;
+    return -1.04602834e-04 * x * exp(-2.41454016e-03 * x) + 1.75677581e-02;
   }
 
   Function powerCalc(double x) {
@@ -77,9 +77,9 @@ class Calculator1WDunk {
     double d = powerCoefficient4(x);
 
     double func(x) {
-      return x * a * log(b * x + 1.93834117e-01) +
-          x * c * exp(-d * x - 1.02281089e-01) +
-          -7.80644286e-01 * x;
+      return x * a * log(b * x + 1.88302988e-01) +
+          x * c * exp(-d * x + 8.88891560e-01) +
+          2.18079770e-01;
     }
 
     return func;
@@ -98,16 +98,16 @@ class Calculator1WDunk {
     double power = appData.maxPower1WDunk;
 
     double a =
-        3.42207149e-03 * power * altitude * exp(1.18387313e-02 * altitude) +
-            4.82710232e-02;
+        2.93710257e-03 * power * altitude * exp(-2.75777414e-02 * altitude) +
+            4.70789691e-02;
     double b =
-        3.76932673e-04 * exp(-2.81528141e-02 * altitude) + 1.26470059e-02;
+        2.66856494e-02 * exp(-5.36205172e-03 * altitude) + -1.19168565e-02;
     double c =
-        -2.29632043e-03 * exp(1.93186949e-02 * altitude) + 3.24928541e-03;
-    double d = 9.07898522e-03 * power * exp(3.69925230e-03 * altitude) +
-        -2.26371532e+00;
+        1.45242889e-03 * power * exp(-3.73258966e-02 * altitude) + -2.34931700e-01;
+    double d = 8.06498917e-03 * power * exp(-8.27873292e-03 * altitude) +
+        -2.29491705e+00;
 
-    return a / (exp(-b * diffDistance + d) + c * diffDistance);
+    return a / (exp(-b * diffDistance + d) + c);
   }
 
   Results calculate1WDunk(InputData inputs, Results results) {
@@ -136,7 +136,7 @@ class Calculator1WDunk {
 //    print(inputs.pinDistance / (80 * pow(1.006, (maxDist - inputs.pinDistance))));
     double realAltitude = elevationCalc(inputs.elevation, trueDist);
 //    realAltitude = 27.74;
-    print(realAltitude);
+    print(maxDist);
 
     double infH = 1 - (realAltitude / inf) / 100;
 
