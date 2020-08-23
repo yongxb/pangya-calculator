@@ -43,9 +43,9 @@ class Calculator1WDunk {
   }
 
   Function hwiCalculation(double x) {
-    double a = 1.64811221e-05 * x * exp(-4.01118186e-03 * x) + -1.16932255e-03;
-    double b = -1.61781640 * exp(-5.32397936e-01 * x) + 2.39130953;
-    double c = 3.70091259e-02 * x * exp(-3.33911099e-02 * x) + 8.37628050e-03;
+    double a = 1.25193986e-05 * x * exp(-4.47219643e-03 * x) + -6.68201024e-04;
+    double b = -5.85884135e-02 * exp(-2.79831405e-01 * x) + 2.35765814;
+    double c = 7.46743201e-02 * x * exp(-3.68194377e-02 * x) + 8.55486513e-03;
 
     double func(x) {
       return a * x * (exp(c * x) + b);
@@ -54,32 +54,19 @@ class Calculator1WDunk {
     return func;
   }
 
-  double powerCoefficient1(double x) {
-    return 9.63104715e-01 * x * exp(-3.15432932e-03 * x) + -9.56034864e+01;
-  }
-
-  double powerCoefficient2(double x) {
-    return -3.95003748e-05 * x * exp(-2.42794713e-03 * x) + 6.62168896e-03;
-  }
-
-  double powerCoefficient3(double x) {
-    return 6.27942619e-01 * x * exp(-3.17735298e-03 * x) + -6.09492974e+01;
-  }
-
-  double powerCoefficient4(double x) {
-    return -1.04602834e-04 * x * exp(-2.41454016e-03 * x) + 1.75677581e-02;
-  }
-
-  Function powerCalc(double x) {
-    double a = powerCoefficient1(x);
-    double b = powerCoefficient2(x);
-    double c = powerCoefficient3(x);
-    double d = powerCoefficient4(x);
+  Function powerCalc(double z) {
+    double a = -2.24346577e-09*z + -2.29176914e-05;
+    double b = -1.36652216e-04*z + 1.86588256e+00;
+    double c = -3.68084924e-02*z + -2.44174783e+00;
+    double d = -1.59993123e-02*z + 2.83877412e+01;
+    double e = -1.04489568e-04*z + 2.70617095e-02;
+    double f = -5.95414353e-03*z + 2.35411877e+00;
+    double g = -2.20752053e-06*z + -4.18134175e+00;
+    double h = -4.07657596e-09*z + 2.47494006e-06;
+    double i = 5.78608144e-12*z + -2.42421922e-09;
 
     double func(x) {
-      return x * a * log(b * x + 1.88302988e-01) +
-          x * c * exp(-d * x + 8.88891560e-01) +
-          2.18079770e-01;
+      return a*(sqrt(b*x)+c)*pow((x+d),3) + e*pow(x,2) + f*x + g + h*pow(x,4) + i*pow(x,5);
     }
 
     return func;
@@ -98,14 +85,14 @@ class Calculator1WDunk {
     double power = appData.maxPower1WDunk;
 
     double a =
-        2.93710257e-03 * power * altitude * exp(-2.75777414e-02 * altitude) +
-            4.70789691e-02;
+        8.13996257e-04 * power * altitude * exp(-5.56877459e-03 * altitude) +
+            1.71973674e-03;
     double b =
-        2.66856494e-02 * exp(-5.36205172e-03 * altitude) + -1.19168565e-02;
+        1.08999155e-01 * exp(-1.16798652e-04 * altitude) + -9.25253986e-02;
     double c =
-        1.45242889e-03 * power * exp(-3.73258966e-02 * altitude) + -2.34931700e-01;
-    double d = 8.06498917e-03 * power * exp(-8.27873292e-03 * altitude) +
-        -2.29491705e+00;
+        9.95579689e-04 * power * exp(-7.82812304e-03 * altitude) + -2.33253108e-01;
+    double d = 4.07782643e-05 * power * exp(1.09862392e-01 * altitude) +
+        -1.15331497e+00;
 
     return a / (exp(-b * diffDistance + d) + c);
   }
