@@ -641,8 +641,8 @@ course:
             pinDistance: 199.41
             pinHeight: 14.4
             tilt: 0
-          "199.55y":
-            pinDistance: 199.55
+          "199.56y":
+            pinDistance: 199.56
             pinHeight: 14.6
             tilt: 0
           "205.69y":
@@ -1097,7 +1097,7 @@ course:
             pinHeight: 6.76
             tilt: 0
           "211.65y":
-            pinDistance: 211.65
+            pinDistance: 211.57
             pinHeight: 6.79
             tilt: 0
       H17:

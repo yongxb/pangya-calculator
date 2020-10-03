@@ -17,7 +17,7 @@ class Calculator1WDunk {
     "98": 1.3,
     "97": 1.8,
     "95": 3.3,
-    "92": 5.1,
+    "92": 5.5,
     "90": 6.5,
     "87": 8,
     "85": 10.1,
@@ -75,7 +75,8 @@ class Calculator1WDunk {
   double terrainCalc(String terrain, double pinDistance) {
     double terrainEffect = 0;
     if (terrain != "100") {
-      terrainEffect = terrainDunk[terrain] + 0.5 * pinDistance / maxDist;
+        terrainEffect = -1.7*exp(-0.0145272*pinDistance+0.9)+terrainDunk[terrain] + 0.7;
+//      terrainEffect = terrainDunk[terrain] + 0.5 * pinDistance / maxDist;
     }
     return terrainEffect;
   }
@@ -85,14 +86,14 @@ class Calculator1WDunk {
     double power = appData.maxPower1WDunk;
 
     double a =
-        8.13996257e-04 * power * altitude * exp(-5.56877459e-03 * altitude) +
-            1.71973674e-03;
+        2.81359434e-01 * power * altitude * exp(-2.36021285e-02 * altitude) +
+            1.54876843e-00;
     double b =
-        1.08999155e-01 * exp(-1.16798652e-04 * altitude) + -9.25253986e-02;
+        -1.04149273e+00 * exp(1.29501197e-04* altitude) + 1.05689693e+00;
     double c =
-        9.95579689e-04 * power * exp(-7.82812304e-03 * altitude) + -2.33253108e-01;
-    double d = 4.07782643e-05 * power * exp(1.09862392e-01 * altitude) +
-        -1.15331497e+00;
+        1.50844559e-01 * power * exp(-3.21284605e-02 * altitude) + -2.51086190e+01;
+    double d = 7.77253672e-03 * power * exp(-7.10442977e-03 * altitude) +
+        2.36451819e+00;
 
     return a / (exp(-b * diffDistance + d) + c);
   }
@@ -115,17 +116,17 @@ class Calculator1WDunk {
     double elevationInfH;
 
     if (inputs.elevation >= 0.0) {
-      inf = 3.3;
+      inf = 3.6;
     } else {
       inf = inputs.pinDistance /
-          (80 * pow(1.006, (maxDist - inputs.pinDistance)));
+          (80 * pow(1.005, (maxDist - inputs.pinDistance)));
     }
 //    print(inputs.pinDistance / (80 * pow(1.006, (maxDist - inputs.pinDistance))));
     double realAltitude = elevationCalc(inputs.elevation, trueDist);
 //    realAltitude = 27.74;
-    print(maxDist);
 
     double infH = 1 - (realAltitude / inf) / 100;
+    print(infH);
 
     double hwi = hwiFn(trueDist);
     double windMovement =
@@ -142,7 +143,7 @@ class Calculator1WDunk {
       elevationInfH = hwi *
           inputs.windSpeed *
           sin(windAngle * pi / 180) *
-          1.3 * (1 - realAltitude * 0.013);
+          1.25 * (1 - realAltitude * 0.016);
       windMovement = windMovement / (1 - elevationInfH * 4 / 625);
     }
 

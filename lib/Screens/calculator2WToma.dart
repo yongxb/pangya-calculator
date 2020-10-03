@@ -43,27 +43,58 @@ class Calculator2WTomahawk {
   }
 
   Function hwiCalculation(double x) {
-    double a = 4.63627595e-03 * x * exp(-3.46995598e-02 * x) + 4.13034531e-04;
-    double b = 3.65077498e-02 * exp(-7.90550052e-02 * x) + 5.41663842e-01;
-    double c = 4.70120674e-04 * x * exp(-3.60246506e-03 * x) + -4.09828877e-02;
+    var arr = [3.91869598e-05, -4.00576675e-03, -3.19764815e-03, -1.59451080e+00,
+      -3.42094335e-03,  1.72562049e+02,  7.75405215e-03];
+    double a = arr[0] * x * exp(arr[1] * x) + arr[2];
+    double b = arr[3] * x * exp(arr[4] * x) + arr[5];
 
     double func(x) {
-      return a * x * (exp(c * x) + b);
+      return a * x * (exp(arr[6] * x) + b);
     }
 
     return func;
   }
 
-  Function powerCalculation(double x) {
-    double a = 3.59290203e-02 * x * exp(-1.10884798e-02 * x) + 6.33358542e-01;
-    double b = -1.27744557e-04 * x * exp(-1.07969335e-02 * x) + 1.07415009e-03;
+//  Function hwiCalculation(double x) {
+//    double a = 4.63627595e-03 * x * exp(-3.46995598e-02 * x) + 4.13034531e-04;
+//    double b = 3.65077498e-02 * exp(-7.90550052e-02 * x) + 5.41663842e-01;
+//    double c = 4.70120674e-04 * x * exp(-3.60246506e-03 * x) + -4.09828877e-02;
+//
+//    double func(x) {
+//      return a * x * (exp(c * x) + b);
+//    }
+//
+//    return func;
+//  }
+
+  Function powerCalculation(double z) {
+    var arr = [-1.20724384e+00,  6.68832191e+01,  2.61348792e-03,  6.42230057e-02,
+      3.43509690e+00, -7.29249693e+01,  1.90707305e-06, -2.74288860e+00,
+      3.35351528e-04, -1.05860339e+00];
+
+    double a = arr[0]*z + arr[1] ;
+    double b = arr[2]*z + arr[3];
+    double c = arr[4]*z + arr[5];
+    double d = arr[6]*z + arr[7];
+    double e = arr[8]*z + arr[9];
 
     double func(x) {
-      return x * a * exp(b * x + 2.12391612e-01) + -3.96578023e+01;
+      return a * (d*x - sqrt(x)) / (e*x + sqrt(x)) + b*x + c;
     }
 
     return func;
   }
+
+//  Function powerCalculation(double x) {
+//    double a = 3.59290203e-02 * x * exp(-1.10884798e-02 * x) + 6.33358542e-01;
+//    double b = -1.27744557e-04 * x * exp(-1.07969335e-02 * x) + 1.07415009e-03;
+//
+//    double func(x) {
+//      return x * a * exp(b * x + 2.12391612e-01) + -3.96578023e+01;
+//    }
+//
+//    return func;
+//  }
 
   Results calculate2WToma(InputData inputs, Results results) {
     maxDistCalc(appData.maxPower2WTomahawk);
