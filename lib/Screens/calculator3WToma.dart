@@ -65,10 +65,19 @@ class Calculator3WTomahawk {
     return func;
   }
 
+  double getPower(){
+    double power = appData.maxPower3WTomahawk;
+    if(appData.useDoublePS){
+      power += 10;
+    }
+    return power;
+  }
+
   Results calculate3WToma(InputData inputs, Results results) {
-    maxDistCalc(appData.maxPower3WTomahawk);
-    Function hwiFn = hwiCalculation(appData.maxPower3WTomahawk);
-    Function powerFn = powerCalculation(appData.maxPower3WTomahawk);
+    double maxPower = getPower();
+    maxDistCalc(maxPower);
+    Function hwiFn = hwiCalculation(maxPower);
+    Function powerFn = powerCalculation(maxPower);
 
     double trueDist = inputs.pinDistance + terrainToma[inputs.terrain];
 //      print(maxDist);
@@ -118,11 +127,11 @@ class Calculator3WTomahawk {
     results.finalMovement = num.parse(finalMovement.toStringAsFixed(2));
 
     finalMovementCaliperLeft =
-        (0.5 - (finalMovement % 5) / 10) * appData.maxPower3WTomahawk;
+        (0.5 - (finalMovement % 5) / 10) * maxPower;
     results.finalMovementCaliperLeft =
         num.parse(finalMovementCaliperLeft.toStringAsFixed(2));
     finalMovementCaliperRight =
-        (0.5 + (finalMovement % 5) / 10) * appData.maxPower3WTomahawk;
+        (0.5 + (finalMovement % 5) / 10) * maxPower;
     results.finalMovementCaliperRight =
         num.parse(finalMovementCaliperRight.toStringAsFixed(2));
 
@@ -130,11 +139,11 @@ class Calculator3WTomahawk {
     results.finalMovement4 = num.parse(finalMovement4.toStringAsFixed(2));
 
     finalMovement4CaliperLeft =
-        (0.5 - (finalMovement4 % 5) / 10) * appData.maxPower3WTomahawk;
+        (0.5 - (finalMovement4 % 5) / 10) * maxPower;
     results.finalMovement4CaliperLeft =
         num.parse(finalMovement4CaliperLeft.toStringAsFixed(2));
     finalMovement4CaliperRight =
-        (0.5 + (finalMovement4 % 5) / 10) * appData.maxPower3WTomahawk;
+        (0.5 + (finalMovement4 % 5) / 10) * maxPower;
     results.finalMovement4CaliperRight =
         num.parse(finalMovement4CaliperRight.toStringAsFixed(2));
 

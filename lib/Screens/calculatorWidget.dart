@@ -187,18 +187,46 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
               thickness: 1,
             ),
             Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Expanded(
-                    child: calculationField(context),
-                  ),
                   Expanded(
                     child: pinInformationField(context),
                   ),
                 ]
             ),
             Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Expanded (
+                    flex: 2,
+                    child: calculationField(context),
+                  ),
+                  Expanded (
+                    flex: 1,
+                    child: Padding(
+                      padding: EdgeInsets.only(right: 5),
+                      child: Column(
+                        children: <Widget>[
+                          Text("2ps", textAlign: TextAlign.left, style: TextStyle(fontSize: 12, color: Colors.grey)),
+                          SizedBox(height: 21, width: 13, child:
+                            Checkbox(
+                              value: appData.useDoublePS,
+                              onChanged: (bool value) {
+                                context.bloc<CalculatorBloc>().add(CalculatorEvent(EventType.updateDoublePS, null));
+                                setState(() {});
+                              },
+                            ),
+                          ),
+                        ]
+                      )
+                    )
+                  ),
+                  Expanded (
+                    flex: 3,
+                    child: spinField(context),
+                  ),
+                ]
+            ),
+            Row(
                 children: <Widget>[
                   Expanded(
                     child: pinDistanceField(context),
@@ -230,14 +258,13 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Expanded(
-                    child: breaksField(context),
+                    child: terrainField(context),
                   ),
                   Expanded(
-                    child: greenSlopeField(context),
+                    child: breaksField(context),
                   ),
                 ]
             ),
-            terrainField(context),
           ],
         ),
     );
@@ -261,11 +288,12 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
                   child: DropdownButton<String>(
                     onChanged: (String value) {
                       context.bloc<CalculatorBloc>().add(CalculatorEvent(EventType.updateCalculator, value));
+                      setState(() {});
                     },
                     value: calculatorValue,
                     icon: Icon(Icons.arrow_drop_down),
                     iconSize: 24,
-                    items: <String>['1W Dunk', '1W Tomahawk', '2W Tomahawk', '3W Tomahawk', '6i Beam']
+                    items: <String>['1W Dunk', '1W Toma', '2W Toma', '3W Toma', '6i Beam']
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
@@ -479,18 +507,18 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
     return StreamBuilder(
       builder: (context, snapshot) {
         return Padding(
-            padding: EdgeInsets.only(right: 10),
-        child: TextFormField(
-          onChanged: (String value) {
-            context.bloc<CalculatorBloc>().add(CalculatorEvent(EventType.updateBreaks, value));
-          },
-          initialValue: '0',
-          keyboardType: TextInputType.number,
-          decoration: InputDecoration(
-            labelText: 'Breaks',
-            icon: Icon(Icons.timeline, size: 20,),
-          ),
-        )
+          padding: EdgeInsets.only(right: 5),
+          child: TextFormField(
+            onChanged: (String value) {
+              context.bloc<CalculatorBloc>().add(CalculatorEvent(EventType.updateBreaks, value));
+            },
+            initialValue: '0',
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(
+              labelText: 'Breaks',
+              icon: FaIcon(FontAwesomeIcons.slash, size: 15,),
+            ),
+          )
         );
       },
     );
@@ -500,18 +528,18 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
     return StreamBuilder(
       builder: (context, snapshot) {
         return Padding(
-            padding: EdgeInsets.only(right: 7),
-            child: TextFormField(
-              onChanged: (String value) {
-                context.bloc<CalculatorBloc>().add(CalculatorEvent(EventType.updateGreenSlope, value));
-              },
-              initialValue: '0',
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                labelText: 'Green Slope',
-                icon: Icon(Icons.golf_course, size: 20,),
-              ),
-            )
+          padding: EdgeInsets.only(right: 5),
+          child: TextFormField(
+            onChanged: (String value) {
+              context.bloc<CalculatorBloc>().add(CalculatorEvent(EventType.updateGreenSlope, value));
+            },
+            initialValue: '0',
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(
+              labelText: 'Green Slope',
+              icon: Icon(Icons.golf_course, size: 20,),
+            ),
+          )
         );
       },
     );
@@ -521,21 +549,41 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
     return StreamBuilder(
       builder: (context, snapshot) {
         return Padding(
-            padding: EdgeInsets.only(right: 7),
-        child: TextFormField(
-          onChanged: (String value) {
-            context.bloc<CalculatorBloc>().add(CalculatorEvent(EventType.updateTerrain, value));
-          },
-          initialValue: '100',
-          keyboardType: TextInputType.number,
-          decoration: InputDecoration(
-            labelText: 'Terrain',
-            icon: Icon(Icons.terrain, size: 20,),
-          ),
-        )
+          padding: EdgeInsets.only(right: 5),
+          child: TextFormField(
+            onChanged: (String value) {
+              context.bloc<CalculatorBloc>().add(CalculatorEvent(EventType.updateTerrain, value));
+            },
+            initialValue: '100',
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(
+              labelText: 'Terrain',
+              icon: FaIcon(FontAwesomeIcons.water, size: 15,),
+            ),
+          )
         );
       },
     );
   }
 }
 
+Widget spinField(BuildContext context) {
+  return StreamBuilder(
+    builder: (context, snapshot) {
+      return Padding(
+          padding: EdgeInsets.only(right: 0),
+          child: TextFormField(
+            onChanged: (String value) {
+              context.bloc<CalculatorBloc>().add(CalculatorEvent(EventType.updateSpin, value));
+            },
+            initialValue: '11',
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(
+              labelText: 'Spin',
+              icon: FaIcon(FontAwesomeIcons.sync, size: 15,),
+            ),
+          )
+      );
+    },
+  );
+}

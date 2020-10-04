@@ -23,6 +23,7 @@ class InputData{
   double windAngle = 45;
   double breaks = 0;
   double greenSlope = 0;
+  double spin = 11;
   String terrain = "100";
   bool windDirection = true;
 

@@ -9,6 +9,7 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   TextEditingController  _maxPower1WDunkController = TextEditingController();
   TextEditingController  _maxPower1WTomahawkController = TextEditingController();
+  TextEditingController  _maxPower6iController = TextEditingController();
   TextEditingController  _spinController = TextEditingController();
 
   @override
@@ -18,7 +19,7 @@ class _SettingsPageState extends State<SettingsPage> {
     Future<double> initMaxPower1WPowershot = loadMaxPower1WPowershot();
 
     initMaxPower1W.then((value) {
-      _maxPower1WDunkController.text =  appData.maxPower1WDunk.toString();
+      _maxPower1WDunkController.text =  value.toString();
     });
 
     initMaxPower1WPowershot.then((value){
@@ -26,7 +27,7 @@ class _SettingsPageState extends State<SettingsPage> {
     });
 
     initSpin.then((value) {
-      _spinController.text = appData.spin.toString();
+      _maxPower6iController.text = appData.maxPower6i.toString();
     });
     return super.initState();
   }
@@ -36,6 +37,7 @@ class _SettingsPageState extends State<SettingsPage> {
     // Clean up the controller when the widget is disposed.
     _maxPower1WDunkController.dispose();
     _maxPower1WTomahawkController.dispose();
+    _maxPower6iController.dispose();
     _spinController.dispose();
     super.dispose();
   }
@@ -140,18 +142,34 @@ class _SettingsPageState extends State<SettingsPage> {
             padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 8),
             child: TextFormField(
               decoration: const InputDecoration(
-                labelText: 'Spin',
-                hintText: '9',
+                labelText: '6i Max Power [Not in use]',
+                hintText: '152',
                 contentPadding: EdgeInsets.symmetric(horizontal: 5),
               ),
               keyboardType: TextInputType.number,
-              controller: _spinController,
+              controller: _maxPower6iController,
               onChanged: (String value) {
-                appData.spin = double.parse(value);
-                updateSpin();
+                appData.maxPower6i = double.parse(value);
+//                updateMaxPower1WPowershot();
               },
             ),
           ),
+//          Padding(
+//            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 8),
+//            child: TextFormField(
+//              decoration: const InputDecoration(
+//                labelText: 'Spin',
+//                hintText: '9',
+//                contentPadding: EdgeInsets.symmetric(horizontal: 5),
+//              ),
+//              keyboardType: TextInputType.number,
+//              controller: _spinController,
+//              onChanged: (String value) {
+//                appData.spin = double.parse(value);
+//                updateSpin();
+//              },
+//            ),
+//          ),
           CheckboxListTile(
             title: const Text("Use Cosine"),
             value: appData.useCosine,

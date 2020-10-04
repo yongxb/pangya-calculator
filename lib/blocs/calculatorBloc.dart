@@ -22,6 +22,8 @@ enum EventType {
   updateTerrain,
   updateCalculator,
   updatePinDescription,
+  updateSpin,
+  updateDoublePS,
 }
 
 class CalculatorState {
@@ -105,6 +107,15 @@ class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
 
   Function calculate = Calculator1WDunk().calculate1WDunk;
 
+  double getMaxPower(double power){
+    if(appData.useDoublePS==true){
+      power += 10;
+    } else {
+      power -= 10;
+    }
+    return power;
+  }
+
   @override
   Stream<CalculatorState> mapEventToState(CalculatorEvent event) async* {
     switch (event.eventType){
@@ -114,28 +125,35 @@ class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
           calculate = Calculator1WDunk().calculate1WDunk;
           _results = calculate(_inputs, _results);
           _maxPowerSubject.value = appData.maxPower1WDunk.toString();
+          appData.useDoublePS = false;
           yield CalculatorSuccess(_results);
-        } else if (event.value == "1W Tomahawk"){
+        } else if (event.value == "1W Toma"){
           calculate = Calculator1WTomahawk().calculate1WToma;
           _results = calculate(_inputs, _results);
-          _maxPowerSubject.value = appData.maxPower1WTomahawk.toString();
+          _maxPowerSubject.value = getMaxPower(appData.maxPower1WTomahawk).toString();
           yield CalculatorSuccess(_results);
-        } else if (event.value == "2W Tomahawk"){
+        } else if (event.value == "2W Toma"){
           calculate = Calculator2WTomahawk().calculate2WToma;
           _results = calculate(_inputs, _results);
-          _maxPowerSubject.value = appData.maxPower2WTomahawk.toString();
+          _maxPowerSubject.value = getMaxPower(appData.maxPower2WTomahawk).toString();
           yield CalculatorSuccess(_results);
-        } else if (event.value == "3W Tomahawk"){
+        } else if (event.value == "3W Toma"){
           calculate = Calculator3WTomahawk().calculate3WToma;
           _results = calculate(_inputs, _results);
-          _maxPowerSubject.value = appData.maxPower3WTomahawk.toString();
+          _maxPowerSubject.value = getMaxPower(appData.maxPower3WTomahawk).toString();
           yield CalculatorSuccess(_results);
         } else if (event.value == "6i Beam"){
           calculate = Calculator6i().calculateDunk6i;
           _results = calculate(_inputs, _results);
-          _maxPowerSubject.value = appData.maxPower6i.toString();
+          _maxPowerSubject.value = getMaxPower(appData.maxPower6i).toString();
           yield CalculatorSuccess(_results);
         }
+        break;
+      case EventType.updateDoublePS:
+        appData.useDoublePS = !appData.useDoublePS;
+        _results = calculate(_inputs, _results);
+        _maxPowerSubject.value = getMaxPower(double.parse(_maxPowerSubject.value)).toString();
+        yield CalculatorSuccess(_results);
         break;
       case EventType.updatePinDistance:
         _inputs.pinDistance = double.parse(event.value);
@@ -194,6 +212,12 @@ class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
         _results = calculate(_inputs, _results);
         _resultsSubject.value = _results;
         appData.terrain = event.value;
+        yield CalculatorSuccess(_results);
+        break;
+      case EventType.updateSpin:
+        appData.spin = double.parse(event.value);
+        _results = calculate(_inputs, _results);
+        _resultsSubject.value = _results;
         yield CalculatorSuccess(_results);
         break;
       case EventType.updatePinDescription:

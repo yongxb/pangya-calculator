@@ -69,9 +69,17 @@ class Calculator1WTomahawk {
     return func;
   }
 
+  double getPower(){
+    double power = appData.maxPower1WTomahawk;
+    if(appData.useDoublePS){
+      power += 10;
+    }
+    return power;
+  }
+
   double elevationCalc(double altitude, double trueDist) {
     double diffDistance = maxDist - trueDist;
-    double power = appData.maxPower1WTomahawk;
+    double power = getPower();
 
     double a =
         3.86488409e-03 * power * altitude * exp( -5.80707572e-03 * altitude) +
@@ -88,7 +96,7 @@ class Calculator1WTomahawk {
 
 //  double elevationHWICalc(double altitude, double trueDist) {
 //    double diffDistance = maxDist - trueDist;
-//    double power = appData.maxPower1WTomahawk;
+//    double power = getPower();
 //
 //    double a =
 //        2.13655008e-05 * power * altitude * exp( 9.43098646e-02 * altitude) +
@@ -105,7 +113,7 @@ class Calculator1WTomahawk {
 
   double elevationHWICalc(double altitude, double trueDist) {
     double diffDistance = maxDist - trueDist;
-    double power = appData.maxPower1WTomahawk;
+    double power = getPower();
 
     double a =
         6.06179237e-05 * power * altitude * exp(-1.47616307e-01 * altitude) +
@@ -121,9 +129,10 @@ class Calculator1WTomahawk {
   }
 
   Results calculate1WToma(InputData inputs, Results results) {
-    maxDistCalc(appData.maxPower1WTomahawk);
-    Function hwiFn = hwiCalculation(appData.maxPower1WTomahawk);
-    Function powerFn = powerCalculation(appData.maxPower1WTomahawk);
+    double maxPower = getPower();
+    maxDistCalc(maxPower);
+    Function hwiFn = hwiCalculation(maxPower);
+    Function powerFn = powerCalculation(maxPower);
 
     double trueDist = inputs.pinDistance + terrainToma[inputs.terrain];
 //      print(maxDist);
@@ -167,11 +176,11 @@ class Calculator1WTomahawk {
     results.finalMovement = num.parse(finalMovement.toStringAsFixed(2));
 
     finalMovementCaliperLeft =
-        (0.5 - (finalMovement % 5) / 10) * appData.maxPower1WTomahawk;
+        (0.5 - (finalMovement % 5) / 10) * maxPower;
     results.finalMovementCaliperLeft =
         num.parse(finalMovementCaliperLeft.toStringAsFixed(2));
     finalMovementCaliperRight =
-        (0.5 + (finalMovement % 5) / 10) * appData.maxPower1WTomahawk;
+        (0.5 + (finalMovement % 5) / 10) * maxPower;
     results.finalMovementCaliperRight =
         num.parse(finalMovementCaliperRight.toStringAsFixed(2));
 
@@ -179,11 +188,11 @@ class Calculator1WTomahawk {
     results.finalMovement4 = num.parse(finalMovement4.toStringAsFixed(2));
 
     finalMovement4CaliperLeft =
-        (0.5 - (finalMovement4 % 5) / 10) * appData.maxPower1WTomahawk;
+        (0.5 - (finalMovement4 % 5) / 10) * maxPower;
     results.finalMovement4CaliperLeft =
         num.parse(finalMovement4CaliperLeft.toStringAsFixed(2));
     finalMovement4CaliperRight =
-        (0.5 + (finalMovement4 % 5) / 10) * appData.maxPower1WTomahawk;
+        (0.5 + (finalMovement4 % 5) / 10) * maxPower;
     results.finalMovement4CaliperRight =
         num.parse(finalMovement4CaliperRight.toStringAsFixed(2));
 
