@@ -18,7 +18,6 @@ class _PinLocationMenuState extends State<PinLocationMenu>{
   Map pinLocation;
 
   void parseYaml(){
-
     for(var course in pinLocation.keys){
       for (var holes in course.keys){
         continue;

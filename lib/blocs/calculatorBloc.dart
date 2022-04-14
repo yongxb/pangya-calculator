@@ -22,6 +22,7 @@ enum EventType {
   updateTerrain,
   updateCalculator,
   updatePinDescription,
+  updateCourseDescription,
   updateSpin,
   updateDoublePS,
 }
@@ -101,6 +102,9 @@ class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
 
   var _pinInformationSubject = new BehaviorSubject<String>();
   Stream<String> get pinInformation => _pinInformationSubject.stream;
+
+  var _courseDescriptionSubject = new BehaviorSubject<String>.seeded("Blue Lagoon");
+  Stream<String> get courseDescription => _courseDescriptionSubject.stream;
 
   var _maxPowerSubject = new BehaviorSubject<String>();
   Stream<String> get maxPower => _maxPowerSubject.stream;
@@ -220,8 +224,13 @@ class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
         _resultsSubject.value = _results;
         yield CalculatorSuccess(_results);
         break;
+      case EventType.updateCourseDescription:
+        _pinInformationSubject.value = null;
+        _courseDescriptionSubject.value = event.value;
+        _pinInformationSubject.value = await ParseYAML().obtainHoleInformation(event.value);
+        break;
       case EventType.updatePinDescription:
-        pinOutput = await ParseYAML().obtainPinInformation(event.value);
+        pinOutput = await ParseYAML().obtainPinInformation(_courseDescriptionSubject.value, event.value);
         _pinInformationSubject.value = event.value;
         _inputs.pinDistance = pinOutput[0];
         _pinDistanceSubject.value = pinOutput[0].toString();
@@ -241,5 +250,6 @@ class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
     _calculationSelectedSubject.close();
     _maxPowerSubject.close();
     _pinInformationSubject.close();
+    _courseDescriptionSubject.close();
   }
 }

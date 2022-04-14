@@ -126,7 +126,7 @@ class Calculator1WDunk {
 //    realAltitude = 27.74;
 
     double infH = 1 - (realAltitude / inf) / 100;
-    print(infH);
+    // print(infH);
 
     double hwi = hwiFn(trueDist);
     double windMovement =

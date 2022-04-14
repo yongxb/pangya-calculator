@@ -15,22 +15,30 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
   TextEditingController  _pinDistanceController = TextEditingController();
   TextEditingController  _elevationController = TextEditingController();
 
-  Future<List<String>> loadPinLocation() async {
+  Future<List<String>> loadPinLocation(String courseName) async {
     final data = await rootBundle.loadString('assets/pinLocation.yaml');
     final mapData = loadYaml(data);
 
     List<String> pinDescription = [];
-
-    mapData["course"].forEach((key, course) {
-      String _courseShortForm = course["short"];
-      course["holes"].forEach((k, holes) {
-        String _hole = holes["name"];
-        holes["pins"].forEach((k2, v2) {
-          pinDescription.add('$_courseShortForm $_hole $k2');
-        });
+    mapData["course"][courseName]["holes"].forEach((k, holes) {
+      String _hole = holes["name"];
+      holes["pins"].forEach((k2, v2) {
+        pinDescription.add('$_hole $k2');
       });
     });
     return pinDescription;
+  }
+
+  Future<List<String>> loadCourses() async {
+    final data = await rootBundle.loadString('assets/pinLocation.yaml');
+    final mapData = loadYaml(data);
+
+    List<String> courseDescription = [];
+
+    mapData["course"].forEach((key, course) {
+      courseDescription.add(course["name"]);
+    });
+    return courseDescription;
   }
 
   @override
@@ -189,7 +197,7 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
             Row(
                 children: <Widget>[
                   Expanded(
-                    child: pinInformationField(context),
+                    child: courseDescriptionField(context),
                   ),
                 ]
             ),
@@ -308,9 +316,64 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
     );
   }
 
-  Widget pinInformationField(BuildContext context) {
+  Widget courseDescriptionField(BuildContext context) {
     return FutureBuilder<List<String>>(
-        future: loadPinLocation(),
+        future: loadCourses(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            List<String> courseDescription = snapshot.data;
+            return StreamBuilder(
+              stream: context
+                  .bloc<CalculatorBloc>()
+                  .courseDescription,
+              builder: (context, snapshot2) {
+                String courseDescriptionValue;
+                if (snapshot2.data == null) {
+                  courseDescriptionValue = "Blue Lagoon";
+                } else {
+                  courseDescriptionValue = snapshot2.data;
+                }
+                return Row(
+                  children: <Widget>[
+                    FaIcon(FontAwesomeIcons.searchLocation, size: 15, color: Colors.grey,),
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 15),
+                        child: DropdownButton<String>(
+                          onChanged: (String value) {
+                            context.bloc<CalculatorBloc>().add(CalculatorEvent(EventType.updateCourseDescription, value));
+                            setState(() {});
+                          },
+                          value: courseDescriptionValue,
+                          icon: Icon(Icons.arrow_drop_down),
+                          iconSize: 24,
+                          items: courseDescription.map<DropdownMenuItem<String>>((
+                              String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        )
+                      ),
+                    ),
+                    Expanded(
+                        child: pinInformationField(context, courseDescriptionValue),
+                    ),
+                  ],
+                );
+              },
+            );
+          } else {
+            return Container(width: 0, height: 0,);
+          }
+        }
+    );
+  }
+
+  Widget pinInformationField(BuildContext context, String courseDescription) {
+    return FutureBuilder<List<String>>(
+        future: loadPinLocation(courseDescription),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             List<String> pinDescription = snapshot.data;
@@ -321,33 +384,29 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
               builder: (context, snapshot2) {
                 String pinInformationValue;
                 if (snapshot2.data == null) {
-                  pinInformationValue = "BL H2 224.42y";
+                  return Container(width: 0, height: 0,);
+//                  pinInformationValue = "H2 224.42y";
                 } else {
                   pinInformationValue = snapshot2.data;
                 }
-                return Row(
-                  children: <Widget>[
-                    FaIcon(FontAwesomeIcons.searchLocation, size: 15, color: Colors.grey,),
-                    Padding(
-                        padding: EdgeInsets.only(left: 15),
-                        child: DropdownButton<String>(
-                          onChanged: (String value) {
-                            context.bloc<CalculatorBloc>().add(
-                                CalculatorEvent(EventType.updatePinDescription, value));
-                          },
-                          value: pinInformationValue,
-                          icon: Icon(Icons.arrow_drop_down),
-                          iconSize: 24,
-                          items: pinDescription.map<DropdownMenuItem<String>>((
-                              String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                        )
-                    )
-                  ],
+                return Padding(
+                  padding: EdgeInsets.only(left: 15),
+                  child: DropdownButton<String>(
+                    onChanged: (String value) {
+                      context.bloc<CalculatorBloc>().add(
+                          CalculatorEvent(EventType.updatePinDescription, value));
+                    },
+                    value: pinInformationValue,
+                    icon: Icon(Icons.arrow_drop_down),
+                    iconSize: 24,
+                    items: pinDescription.map<DropdownMenuItem<String>>((
+                        String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  )
                 );
               },
             );
@@ -571,7 +630,7 @@ Widget spinField(BuildContext context) {
   return StreamBuilder(
     builder: (context, snapshot) {
       return Padding(
-          padding: EdgeInsets.only(right: 0),
+          padding: EdgeInsets.only(right: 7),
           child: TextFormField(
             onChanged: (String value) {
               context.bloc<CalculatorBloc>().add(CalculatorEvent(EventType.updateSpin, value));

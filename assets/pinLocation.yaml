@@ -1,5 +1,5 @@
 course:
-  BL:
+  Blue Lagoon:
     name: "Blue Lagoon"
     short: "BL"
     holes:
@@ -122,7 +122,7 @@ course:
             pinDistance: 236.44
             pinHeight: -5.41
             tilt: 0
-  LS:
+  Lost Seaway:
     name: "Lost Seaway"
     short: "LS"
     holes:
@@ -262,7 +262,7 @@ course:
             pinDistance: 272.3
             pinHeight: -21.1
             tilt: 0
-  IS:
+  Ice Spa:
     name: "Ice Spa"
     short: "IS"
     holes:
@@ -471,7 +471,7 @@ course:
             pinDistance: 326.45
             pinHeight: -43.6
             tilt: 0
-  PW:
+  Pink Wind:
     name: "Pink Wind"
     short: "PW"
     holes:
@@ -577,7 +577,7 @@ course:
             pinDistance: 237.14
             pinHeight: 15.6
             tilt: 0
-  WstW:
+  West Wiz:
     name: "West Wiz"
     short: "WstW"
     holes:
@@ -666,7 +666,7 @@ course:
             pinDistance: 234.53
             pinHeight: -8.55
             tilt: 0
-  IC:
+  Ice Cannon:
     name: "Ice Cannon"
     short: "IC"
     holes:
@@ -789,7 +789,7 @@ course:
             pinDistance: 188.59
             pinHeight: -3.32
             tilt: 0
-  SS:
+  Shining Sand:
     name: "Shining Sand"
     short: "SS"
     holes:
@@ -912,7 +912,7 @@ course:
             pinDistance: 375.84
             pinHeight: -2.54
             tilt: 0
-  WC:
+  Wiz City:
     name: "Wiz City"
     short: "WC"
     holes:
@@ -984,7 +984,7 @@ course:
             pinDistance: 190.14
             pinHeight: -15.4
             tilt: 0
-  AM:
+  Abbot Mine:
     name: "Abbot Mine"
     short: "AM"
     holes:
@@ -1117,7 +1117,7 @@ course:
             pinDistance: 383.65
             pinHeight: -3.74
             tilt: 0
-  EV:
+  Eastern Valley:
     name: "Eastern Valley"
     short: "EV"
     holes:
@@ -1325,7 +1325,7 @@ course:
             pinDistance: 347.3
             pinHeight: -9.6
             tilt: 0
-  SW:
+  Sepia Wind:
     name: "Sepia Wind"
     short: "SW"
     holes:
@@ -1448,7 +1448,7 @@ course:
             pinDistance: 401.97
             pinHeight: -8.24
             tilt: 0
-  BW:
+  Blue Water:
     name: "Blue Water"
     short: "BW"
     holes:
@@ -1622,7 +1622,7 @@ course:
             pinDistance: 453.1
             pinHeight: -25.2
             tilt: 0
-  BM:
+  Blue Moon:
     name: "Blue Moon"
     short: "BM"
     holes:
@@ -1779,7 +1779,7 @@ course:
             pinDistance: 285.13
             pinHeight: 2.71
             tilt: 0
-  IF:
+  Ice Inferno:
     name: "Ice Inferno"
     short: "IF"
     holes:
@@ -1810,11 +1810,11 @@ course:
             pinHeight: -10.6
             tilt: 0
           "263.23y":
-            pinDistance: 370.8
+            pinDistance: 263.23
             pinHeight: -10.9
             tilt: 0
           "272.75y":
-            pinDistance: 373.9
+            pinDistance: 272.75
             pinHeight: -10.9
             tilt: 0
       H6:
@@ -1902,7 +1902,7 @@ course:
             pinDistance: 418.14
             pinHeight: -2.85
             tilt: 0
-  SC:
+  Silva Cannon:
     name: "Silva Cannon"
     short: "SC"
     holes:
@@ -2025,7 +2025,7 @@ course:
             pinDistance: 222.5
             pinHeight: -18.0
             tilt: 0
-  WizW:
+  Wiz Wiz:
     name: "Wiz Wiz"
     short: "WizW"
     holes:
@@ -2148,7 +2148,7 @@ course:
             pinDistance: 272.48
             pinHeight: -7.04
             tilt: 0
-  DF:
+  Deep Inferno:
     name: "Deep Inferno"
     short: "DF"
     holes:
