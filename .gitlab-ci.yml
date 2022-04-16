@@ -1,4 +1,4 @@
-image: cirrusci:flutter
+image: cirrusci/flutter
 
 stages:
   - build
