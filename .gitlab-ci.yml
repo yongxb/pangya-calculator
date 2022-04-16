@@ -1,0 +1,14 @@
+image: cirrusci/flutter:stable
+
+stages:
+  - build
+
+before_script:
+  - flutter pub get
+  - flutter clean
+
+build:
+  stage: build
+
+  script:
+    - flutter build
