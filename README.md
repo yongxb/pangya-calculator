@@ -23,8 +23,8 @@ Android app to calculate the HWI and power needed to chip in. You will still nee
 9. Hit "PangYa" and watch it fly in (or not)
 
 ## Installing the app
-(Preferred) Clone the project. Install android studio and compile it from there.
+(Preferred) Clone the project. Install android studio, setup flutter, and compile it from there.
 
 or
 
-Download the apk from the release page. (You really shouldn't install random apks from the web though)
+Download the apk from the [release page](https://gitlab.com/xianbin.yong13/pangya-calculator/-/releases). (You really shouldn't install random apks from the web though)
