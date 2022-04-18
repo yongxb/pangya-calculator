@@ -38,4 +38,4 @@ release:
     assets:
       links:
         - name: 'Apk release'
-          url: 'https://gitlab.com/xianbin.yong13/pangya-calculator/-/pipelines/${GE_JOB_ID}/artifacts/file/build/app/outputs/apk/release/app-release.apk'
+          url: 'https://gitlab.com/xianbin.yong13/pangya-calculator/-/jobs/${GE_JOB_ID}/artifacts/file/build/app/outputs/apk/release/app-release.apk'
