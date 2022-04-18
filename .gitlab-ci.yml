@@ -2,14 +2,40 @@ image: cirrusci/flutter
 
 stages:
   - build
+  - release
 
 flutter_build_android: #Job name
   stage: build # kind of job
   before_script:
     - flutter packages get
     - flutter clean
+    - echo $CI_JOB_ID
+    - echo GE_JOB_ID=$CI_JOB_ID >> generate_executables.env
   script:
     - flutter build apk
   artifacts:
     paths:
       - build/app/outputs/apk/release/app-release.apk
+    reports:
+      dotenv: generate_executables.env
+
+release:
+  stage: release
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  script:
+    - echo 'running release_job'
+    - echo 'Previous Job ID is printed below'
+    - echo $GE_JOB_ID
+  # Specifying that this job requires artifacts from the previous job to succeed
+  needs:
+    - job: flutter_build_android
+      artifacts: true
+  release:
+    name: 'Release Executables $CI_COMMIT_SHORT_SHA'
+    description: 'Created using the release-cli'
+    # tag_name is a mendatory field and can not be an empty string
+    tag_name: '$CI_COMMIT_SHORT_SHA'
+    assets:
+      links:
+        - name: 'Apk release'
+          url: 'https://gitlab.com/xianbin.yong13/pangya-calculator/-/pipelines/${GE_JOB_ID}/artifacts/file/build/app/outputs/apk/release/app-release.apk'
