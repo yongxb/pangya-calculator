@@ -37,5 +37,5 @@ release:
     tag_name: '$CI_COMMIT_SHORT_SHA'
     assets:
       links:
-        - name: 'Apk release'
+        - name: 'app-release.apk'
           url: 'https://gitlab.com/xianbin.yong13/pangya-calculator/-/jobs/${GE_JOB_ID}/artifacts/file/build/app/outputs/apk/release/app-release.apk'
